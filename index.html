@@ -338,8 +338,8 @@
                     คนเก่งของเค้า 🐶
                 </h1>
 
-                <!-- เปลี่ยน sorat.jpg เป็นรูปของแฟน -->
-                <img src="sorat.jpg" alt="รูปของเรา">
+                <!-- เปลี่ยน cat.jpg เป็นรูปของแฟน -->
+                <img src="cat.jpg" alt="รูปของเรา">
 
                 <div class="message">
 
@@ -431,12 +431,14 @@
             if (qr.innerHTML !== "") return;
 
             /*
-                QR จะใช้ URL ของเว็บหน้านี้
-                เช่น https://ชื่อเว็บของเรา.com
+                QR จะเปิดลิงก์ที่กำหนดไว้ด้านล่าง
+                หลังจากนำเว็บขึ้นออนไลน์ ให้เปลี่ยน
+                https://example.com/55555
+                เป็นลิงก์จริงของเว็บนี้
             */
 
             new QRCode(qr, {
-                text: window.location.href,
+                text: "https://sorat18011999-beep.github.io/my-love-gift/",
                 width: 180,
                 height: 180,
                 colorDark: "#ff6f9f",
