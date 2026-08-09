@@ -48,7 +48,7 @@
             width: 100%;
         }
 
-        /* ---------------- หน้าแรก + QR ---------------- */
+        /* ---------------- Header & Button ---------------- */
         h1 {
             color: #ff6f9f;
             margin: 15px 0;
@@ -66,7 +66,7 @@
             border-radius: 30px;
             font-size: 17px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 12px;
             box-shadow: 0 5px 15px rgba(255, 100, 150, .3);
             transition: .2s;
         }
@@ -86,6 +86,49 @@
         button:hover {
             transform: scale(1.05);
             background: #ff5d92;
+        }
+
+        /* ---------------- Slider 🖼️ ---------------- */
+        .slider-container {
+            width: 220px;
+            height: 250px;
+            margin: 15px auto;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            background: #fff;
+        }
+
+        .slide-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide-img.active {
+            opacity: 1;
+        }
+
+        /* ---------------- Quote Box 💬 ---------------- */
+        .quote-box {
+            background: #fff0f6;
+            border: 2px dashed #ff82aa;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #ff3b7b;
+            font-size: 16px;
+            font-weight: bold;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* ---------------- กล่องของขวัญ ---------------- */
@@ -151,15 +194,8 @@
             z-index: 5;
         }
 
-        .bow-left {
-            left: 45px;
-            transform: rotate(25deg);
-        }
-
-        .bow-right {
-            right: 45px;
-            transform: rotate(-25deg);
-        }
+        .bow-left { left: 45px; transform: rotate(25deg); }
+        .bow-right { right: 45px; transform: rotate(-25deg); }
 
         /* ---------------- Card ---------------- */
         .card {
@@ -170,42 +206,110 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.12);
         }
 
-        /* ---------------- Image Slider ---------------- */
-        .slider-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 10px auto 15px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* 📸 รูปสไตล์ Polaroid พลิกได้ (3D Flip) */
+        .polaroid-container {
+            width: 210px;
+            height: 250px;
+            margin: 15px auto 20px;
+            perspective: 1000px;
+            cursor: pointer;
         }
 
-        .slide-img {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .polaroid-card {
             width: 100%;
             height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            background: #fff;
+            padding: 12px 12px 35px 12px;
+        }
+
+        .polaroid-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .polaroid-front, .polaroid-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .polaroid-front img {
+            width: 100%;
+            height: 190px;
             object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            border-radius: 20px;
+            border-radius: 8px;
         }
 
-        .slide-img.active {
-            opacity: 1;
+        .polaroid-caption {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #888;
+            font-weight: bold;
         }
 
-        /* กล่องนับวัน */
+        .polaroid-back {
+            background: #fff0f6;
+            transform: rotateY(180deg);
+            border: 2px dashed #ff82aa;
+            color: #ff3b7b;
+            font-size: 15px;
+            line-height: 1.6;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* ⏳ กล่องนับเวลาแบบ Real-time แสดงแบบละเอียด */
         .counter-box {
             background: #ffe6f0;
-            padding: 10px 15px;
-            border-radius: 15px;
+            padding: 15px;
+            border-radius: 20px;
             font-weight: bold;
             color: #ff5d92;
             margin-bottom: 15px;
-            display: inline-block;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(255, 110, 160, 0.15);
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .timer-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 8px 6px;
+            min-width: 60px;
+            box-shadow: 0 2px 6px rgba(255, 100, 150, 0.1);
+        }
+
+        .timer-value {
+            font-size: 20px;
+            color: #ff3b7b;
+            font-weight: bold;
+            display: block;
+        }
+
+        .timer-label {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 2px;
+            display: block;
         }
 
         .message {
@@ -218,20 +322,29 @@
             text-align: left;
             min-height: 180px;
             white-space: pre-line;
+            margin-bottom: 15px;
         }
 
-        /* กล่องสุ่มข้อความ */
-        .love-quote-box {
-            margin-top: 15px;
-            padding: 12px;
-            background: #fff;
-            border: 2px dashed #ff82aa;
-            border-radius: 15px;
-            color: #ff3b7b;
-            font-weight: bold;
+        /* 🎯 ปุ่มฉุกเฉินถ้าเหนื่อย/คิดถึง */
+        .emergency-btn {
+            background: linear-gradient(135deg, #ff6f9f, #ff3b7b);
             font-size: 15px;
-            display: none;
-            animation: fadeIn 0.4s ease;
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255, 59, 123, 0.3);
+        }
+
+        /* 💌 ปุ่มส่งกอดเข้า LINE */
+        .line-btn {
+            background: #06C755;
+            font-size: 15px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
         }
 
         /* ---------------- QR ---------------- */
@@ -263,17 +376,10 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* หัวใจลอย */
         .heart {
             position: fixed;
             bottom: -30px;
@@ -284,17 +390,9 @@
         }
 
         @keyframes floatUp {
-            0% {
-                transform: translateY(0);
-                opacity: 0;
-            }
-            20% {
-                opacity: .8;
-            }
-            100% {
-                transform: translateY(-110vh);
-                opacity: 0;
-            }
+            0% { transform: translateY(0); opacity: 0; }
+            20% { opacity: .8; }
+            100% { transform: translateY(-110vh); opacity: 0; }
         }
 
         .music-control {
@@ -311,7 +409,7 @@
 
 <body>
 
-    <!-- 🎵 ไฟล์เพลง (ไม่ต้องมี loop แล้วเพราะใช้ระบบ Playlist) -->
+    <!-- 🎵 ไฟล์เพลง -->
     <audio id="bgMusic" preload="auto"></audio>
     <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
 
@@ -320,43 +418,53 @@
         <div class="content">
             <div class="qr-box" id="qrClickArea">
                 <div id="qrcode"></div>
-                <div class="qr-text">
-                    สแกนเพื่อเปิดของขวัญ 💗
-                </div>
-                <div class="small">
-                    (หรือคลิกที่ QR Code เพื่อเริ่มเล่นได้เลย 🥰)
-                </div>
+                <div class="qr-text">สแกนเพื่อเปิดของขวัญ 💗</div>
+                <div class="small">(หรือคลิกที่ QR Code เพื่อเริ่มเล่นได้เลย 🥰)</div>
             </div>
         </div>
     </section>
 
-    <!-- หน้า 2 -->
+    <!-- หน้า 2 : สไลด์โชว์รูปภาพ -->
     <section class="page">
         <div class="content">
-            <h2>พร้อมหรือยัง? 🥺</h2>
-            <h1>มีของขวัญให้เธอ 🎁</h1>
+            <h2>Our Memories 📸</h2>
+            
+            <!-- 🖼️ สไลด์โชว์รูปภาพ -->
+            <div class="slider-container">
+                <img src="sorat.jpg" class="slide-img active" alt="รูปที่ 1">
+                <img src="sorat2.jpg" class="slide-img" alt="รูปที่ 2">
+                <img src="sorat3.jpg" class="slide-img" alt="รูปที่ 3">
+                <img src="sorat4.jpg" class="slide-img" alt="รูปที่ 4">
+                <img src="sorat5.jpg" class="slide-img" alt="รูปที่ 5">
+            </div>
 
+            <h1>มีของขวัญให้เธอ 🎁</h1>
             <button data-action="next">Next ▶️</button>
             <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
         </div>
     </section>
 
-    <!-- หน้า 3 -->
+    <!-- หน้า 3 : สุ่มคำบอกรัก -->
     <section class="page">
         <div class="content">
             <h1>คนเก่งของเค้า 🐶</h1>
-            <p>ของขวัญชิ้นนี้ตั้งใจทำให้เธอเลยนะ 💗</p>
+            <p>สุ่มข้อความบอกรักน่ารักๆ จากเค้า 💌</p>
 
-            <button data-action="next">Next ▶️</button>
+            <div class="quote-box" id="quoteDisplay">
+                "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕"
+            </div>
+
+            <button onclick="getRandomQuote()">สุ่มข้อความ 🎲</button>
+            <br>
+            <button data-action="next">ไปหน้ากล่องของขวัญ ▶️</button>
             <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
         </div>
     </section>
 
-    <!-- หน้า 4 -->
+    <!-- หน้า 4 : กล่องของขวัญ -->
     <section class="page">
         <div class="content">
             <h2>Gift for U 💗</h2>
-
             <div class="gift" id="gift" onclick="openGift()">
                 <div class="bow-left"></div>
                 <div class="bow-right"></div>
@@ -365,40 +473,66 @@
                 <div class="ribbon"></div>
                 <div class="ribbon-horizontal"></div>
             </div>
-
             <button data-action="gift">Open It 🎁</button>
             <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
         </div>
     </section>
 
-    <!-- หน้า 5 -->
+    <!-- หน้า 5 : การ์ดจดหมาย & นับเวลา -->
     <section class="page">
         <div class="content">
             <div class="card">
                 <h1>คนเก่งของเค้า 🐶</h1>
 
-                <!-- 🖼️ สไลด์โชว์รูปภาพ -->
-                <div class="slider-container">
-                    <img src="sorat.jpg" class="slide-img active" alt="รูปที่ 1">
-                    <img src="sorat2.jpg" class="slide-img" alt="รูปที่ 2">
-                    <img src="sorat3.jpg" class="slide-img" alt="รูปที่ 3">
-                    <img src="sorat4.jpg" class="slide-img" alt="รูปที่ 4">
-                    <img src="sorat5.jpg" class="slide-img" alt="รูปที่ 5">
+                <!-- 📸 รูป Polaroid แตะเพื่อพลิกดูข้อความซ่อน -->
+                <div class="polaroid-container" onclick="flipPolaroid(this)">
+                    <div class="polaroid-card">
+                        <div class="polaroid-front">
+                            <img src="sorat.jpg" alt="รูปของเรา">
+                            <div class="polaroid-caption">👆 แตะที่รูปเพื่อดูข้อความลับ</div>
+                        </div>
+                        <div class="polaroid-back">
+                            💌 ข้อความหลังรูป:<br><br>
+                            "รูปนี้น่ารักที่สุดเลย!<br>ขอบคุณที่คอยยิ้มให้เค้าในทุกๆ วันนะคนเก่ง ❤️"
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 1. นับวันครบรอบ -->
+                <!-- ⏳ นาฬิการักกันมาแล้วแบบ Real-time แสดงครบ วัน/ชม./นาที/วิ -->
                 <div class="counter-box">
-                    เรารักกันมาแล้ว <span id="daysCount" style="font-size: 20px;">0</span> วัน 💖
+                    เรารักกันมาแล้ว 💖
+                    <div class="timer-grid">
+                        <div class="timer-item">
+                            <span id="d" class="timer-value">0</span>
+                            <span class="timer-label">วัน</span>
+                        </div>
+                        <div class="timer-item">
+                            <span id="h" class="timer-value">00</span>
+                            <span class="timer-label">ชั่วโมง</span>
+                        </div>
+                        <div class="timer-item">
+                            <span id="m" class="timer-value">00</span>
+                            <span class="timer-label">นาที</span>
+                        </div>
+                        <div class="timer-item">
+                            <span id="s" class="timer-value">00</span>
+                            <span class="timer-label">วินาที</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 3. ข้อความพิมพ์ทีละตัว -->
+                <!-- ข้อความพิมพ์ทีละตัว -->
                 <div class="message" id="typeWriterMessage"></div>
 
-                <!-- 5. สุ่มคำบอกรัก -->
-                <button onclick="getRandomLoveQuote()" style="background: #ffb3ca; font-size: 14px; padding: 10px 20px;">
-                    🎲 สุ่มคำบอกรักของวันนี้
+                <!-- 🎯 ปุ่มฉุกเฉินถ้าเหนื่อย/คิดถึง -->
+                <button class="emergency-btn" onclick="triggerEmergencyHug()">
+                    🚨 ถ้าเหนื่อยหรือคิดถึง กดปุ่มนี้เลย! 🤗
                 </button>
-                <div class="love-quote-box" id="quoteBox"></div>
+
+                <!-- 💌 ปุ่มกดส่งกอดกลับเข้า LINE -->
+                <button class="line-btn" onclick="sendLineHug()">
+                    💬 ส่งกอดกลับหาเค้าทาง LINE
+                </button>
 
                 <br><br>
                 <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
@@ -413,41 +547,107 @@
         const bgMusic = document.getElementById("bgMusic");
         const musicBtn = document.getElementById("musicBtn");
 
-        bgMusic.volume = 0.4; // ปรับความดังเพลง 40%
+        bgMusic.volume = 0.4;
 
-        // 🎵 รายชื่อเพลงที่คุณต้องการเพิ่ม (ใส่ชื่อไฟล์ไว้ตรงนี้ได้เลยครับ)
+        // 🎵 รายชื่อเพลงทั้งหมด 5 เพลง
         const playlist = [
             "tai.mp3",
             "song2.mp3",
             "song3.mp3",
             "song4.mp3",
             "song5.mp3"
-            
         ];
         let currentTrackIndex = 0;
 
-        function loadTrack(index) {
-            bgMusic.src = playlist[index];
-        }
+        function loadTrack(index) { bgMusic.src = playlist[index]; }
 
-        // เมื่อเพลงจบให้เล่นเพลงถัดไปทันที
         bgMusic.addEventListener("ended", function() {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
             loadTrack(currentTrackIndex);
             bgMusic.play();
         });
 
-        // โหลดเพลงแรกเตรียมไว้
         loadTrack(currentTrackIndex);
 
-        // 📌 คำนวณวันครบรอบ
-        const startDate = new Date(2026, 6, 19); 
-        const today = new Date();
-        const diffTime = Math.abs(today - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-        document.getElementById("daysCount").textContent = diffDays;
+        // 💌 คำบอกรักสำหรับสุ่ม 10 คำ
+        const loveQuotes = [
+            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
+            "ขอบคุณที่เข้ามาเป็นความสุขของเค้านะครับ 🥰",
+            "เหนื่อยไหมคนเก่ง มาให้เค้ากอดหน่อยเร็ว 🤗",
+            "รักเธอนะครับ ยิ้มเยอะๆ น้า 😊",
+            "ไม่ว่าจะเจออะไร เค้าอยู่ข้างๆ เธอเสมอนะ ❤️",
+            "วันนี้ก็น่ารักเหมือนเดิมเลยนะแฟนใครเนี่ย 🐶",
+            "เธอพิเศษสำหรับเค้ามากนะ❤️",
+            "เค้าจะไม่มีวันหมดรักที่รักนะ🥰",
+            "อยู่กับเค้าไปนานๆนะ❤️",
+            "สุดสวยของเค้า 💖"
+        ];
 
-        // ข้อความจดหมายสำหรับ Typing Effect
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+            document.getElementById("quoteDisplay").innerText = loveQuotes[randomIndex];
+        }
+
+        // 🖼️ ระบบเปลี่ยนรูปใน สไลด์โชว์
+        let slideIndex = 0;
+        let sliderInterval = null;
+
+        function startImageSlider() {
+            if (sliderInterval) clearInterval(sliderInterval);
+            const slides = document.querySelectorAll(".slide-img");
+            if (slides.length === 0) return;
+
+            sliderInterval = setInterval(() => {
+                slides[slideIndex].classList.remove("active");
+                slideIndex = (slideIndex + 1) % slides.length;
+                slides[slideIndex].classList.add("active");
+            }, 3000);
+        }
+
+        // ⏳ Real-Time Timer (ตั้งค่าเป็น 19 กรกฎาคม 2026)
+        const startDate = new Date(2026, 6, 19, 0, 0, 0); 
+
+        function updateTimer() {
+            const now = new Date();
+            const diffTime = Math.abs(now - startDate);
+
+            const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diffTime / (1000 * 60)) % 60);
+            const seconds = Math.floor((diffTime / 1000) % 60);
+
+            document.getElementById("d").textContent = days;
+            document.getElementById("h").textContent = hours.toString().padStart(2, '0');
+            document.getElementById("m").textContent = minutes.toString().padStart(2, '0');
+            document.getElementById("s").textContent = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 📸 พลิกรูป Polaroid
+        function flipPolaroid(container) {
+            const card = container.querySelector('.polaroid-card');
+            card.classList.toggle('flipped');
+        }
+
+        // 🎯 ปุ่มฉุกเฉิน เติมพลังใจ
+        function triggerEmergencyHug() {
+            confetti({
+                particleCount: 120,
+                spread: 100,
+                origin: { y: 0.5 },
+                colors: ['#ff3b7b', '#ff6f9f', '#ffffff']
+            });
+            alert("💖 เติมพลังกอด 100%! ไม่ว่าจะเหนื่อยแค่ไหน เค้าอยู่ข้างๆ เธอเสมอนะครับคนเก่ง สู้ๆ นะ! 🐶✨");
+        }
+
+        // 💌 ส่งข้อความกอดเข้า LINE ส่วนตัว
+        function sendLineHug() {
+            window.open("https://line.me/ti/p/18qT2zVpNT", '_blank');
+        }
+
+        // ข้อความ Typing Effect
         const fullMessage = `เค้าคิดถึงที่รักมากกก 💗\nอยากกอดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺\nขายของก็สู้ๆ นะ เค้าเป็นกำลังใจให้เสมอ ❤️\nรีบกลับมาให้เค้ากอดนะ 🤗\nอยากจุ๊บๆ 😘\nเค้ารักที่รักที่สุดในโลก ❤️`;
         let typeIndex = 0;
         let isTyping = false;
@@ -470,71 +670,23 @@
             type();
         }
 
-        // คำบอกรักสำหรับสุ่ม
-        const loveQuotes = [
-            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
-            "ขอบคุณที่เข้ามาเป็นความสุขของเค้านะครับ 🥰",
-            "เหนื่อยไหมคนเก่ง มาให้เค้ากอดหน่อยเร็ว 🤗",
-            "รักเธอนะครับ ยิ้มเยอะๆ น้า 😊",
-            "ไม่ว่าจะเจออะไร เค้าอยู่ข้างๆ เธอเสมอนะ ❤️",
-            "วันนี้ก็น่ารักเหมือนเดิมเลยนะแฟนใครเนี่ย 🐶",
-            "เธอพิเศษสำหรับเค้ามากนะ❤️",
-            "เค้าจะไม่มีวันหมดรักที่รักนะ🥰",
-            "อยู่กับเค้าไปนานๆนะ❤️",
-            "สุดสวยของเค้า"
-        ];
-
-        function getRandomLoveQuote() {
-            const quoteBox = document.getElementById("quoteBox");
-            const randomText = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
-            quoteBox.textContent = randomText;
-            quoteBox.style.display = "block";
-        }
-
-        // 🖼️ ฟังก์ชันสไลด์รูปภาพอัตโนมัติ
-        let slideIndex = 0;
-        let slideInterval = null;
-
-        function startImageSlider() {
-            const slides = document.querySelectorAll(".slide-img");
-            if (slides.length <= 1) return;
-
-            if (slideInterval) clearInterval(slideInterval);
-
-            slideInterval = setInterval(() => {
-                slides[slideIndex].classList.remove("active");
-                slideIndex = (slideIndex + 1) % slides.length;
-                slides[slideIndex].classList.add("active");
-            }, 3000);
-        }
-
         function showPage(index) {
             if (index < 0 || index >= pages.length) return;
             pages.forEach((page, i) => page.classList.toggle("active", i === index));
             currentPage = index;
             window.scrollTo(0, 0);
 
-            if (index === 4) {
-                if (!isTyping) startTypingEffect();
+            if (index === 1) {
                 startImageSlider();
-            } else {
-                if (slideInterval) clearInterval(slideInterval);
+            } else if (index === 4 && !isTyping) {
+                startTypingEffect();
             }
         }
 
-        function nextPage() {
-            showPage(Math.min(currentPage + 1, pages.length - 1));
-        }
+        function nextPage() { showPage(Math.min(currentPage + 1, pages.length - 1)); }
+        function prevPage() { showPage(Math.max(currentPage - 1, 0)); }
+        function goFirst() { showPage(0); }
 
-        function prevPage() {
-            showPage(Math.max(currentPage - 1, 0));
-        }
-
-        function goFirst() {
-            showPage(0);
-        }
-
-        // เปิดกล่องของขวัญ + ยิงพลุกระดาษ Confetti
         function openGift() {
             const gift = document.getElementById("gift");
             if (gift) gift.style.transform = "scale(1.06) rotate(2deg)";
@@ -552,11 +704,10 @@
             }, 500);
         }
 
-        // ระบบเสียงเพลง
         function startMusic() {
             bgMusic.play().then(() => {
                 musicBtn.textContent = "🔊 ปิดเพลง";
-            }).catch((err) => {
+            }).catch(() => {
                 musicBtn.textContent = "🎵 เปิดเพลง";
             });
         }
@@ -571,7 +722,6 @@
         }
 
         document.addEventListener("click", function (event) {
-            // เมื่อคลิกปุ่มใดๆ ในหน้าเว็บ จะถือว่าเป็นการปฏิสัมพันธ์และเปิดเพลงทันที (ถ้ายังไม่ได้เล่น)
             if (bgMusic.paused && event.target.dataset.action !== "music") {
                 startMusic();
             }
@@ -617,9 +767,7 @@
             heart.style.animationDuration = (4 + Math.random() * 4) + "s";
             document.body.appendChild(heart);
 
-            setTimeout(() => {
-                heart.remove();
-            }, 8000);
+            setTimeout(() => { heart.remove(); }, 8000);
         }
 
         window.addEventListener("DOMContentLoaded", () => {
