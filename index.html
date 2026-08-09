@@ -172,13 +172,31 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.12);
         }
 
-        .card img {
+        /* ---------------- Image Slider (เพิ่มใหม่) ---------------- */
+        .slider-container {
+            position: relative;
             width: 200px;
             height: 200px;
-            object-fit: cover;
-            border-radius: 20px;
             margin: 10px auto 15px;
-            display: block;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .slide-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            border-radius: 20px;
+        }
+
+        .slide-img.active {
+            opacity: 1;
         }
 
         /* กล่องนับวัน */
@@ -363,7 +381,15 @@
         <div class="content">
             <div class="card">
                 <h1>คนเก่งของเค้า 🐶</h1>
-                <img src="sorat.jpg" alt="รูปของเรา">
+
+                <!-- 🖼️ สไลด์โชว์รูปภาพ (ใส่ชื่อรูปภาพเพิ่มตรงนี้ได้เลย) -->
+                <div class="slider-container">
+                    <img src="sorat.jpg" class="slide-img active" alt="รูปที่ 1">
+                    <img src="sorat2.jpg" class="slide-img" alt="รูปที่ 2">
+                    <img src="sorat3.jpg" class="slide-img" alt="รูปที่ 3">
+                    <img src="sorat4.jpg" class="slide-img" alt="รูปที่ 4">
+                    <img src="sorat5.jpg" class="slide-img" alt="รูปที่ 5">
+                </div>
 
                 <!-- 1. นับวันครบรอบ -->
                 <div class="counter-box">
@@ -445,14 +471,35 @@
             quoteBox.style.display = "block";
         }
 
+        // 🖼️ ฟังก์ชันสไลด์รูปภาพอัตโนมัติ
+        let slideIndex = 0;
+        let slideInterval = null;
+
+        function startImageSlider() {
+            const slides = document.querySelectorAll(".slide-img");
+            if (slides.length <= 1) return; // ถ้ารูปเดียวไม่ต้องเลื่อน
+
+            // เคลียร์ Interval เก่า (ถ้ามี)
+            if (slideInterval) clearInterval(slideInterval);
+
+            slideInterval = setInterval(() => {
+                slides[slideIndex].classList.remove("active");
+                slideIndex = (slideIndex + 1) % slides.length;
+                slides[slideIndex].classList.add("active");
+            }, 3000); // 3000ms = เลื่อนทุกๆ 3 วินาที
+        }
+
         function showPage(index) {
             if (index < 0 || index >= pages.length) return;
             pages.forEach((page, i) => page.classList.toggle("active", i === index));
             currentPage = index;
             window.scrollTo(0, 0);
 
-            if (index === 4 && !isTyping) {
-                startTypingEffect();
+            if (index === 4) {
+                if (!isTyping) startTypingEffect();
+                startImageSlider(); // เริ่มสไลด์รูปเมื่อเปิดหน้า 5
+            } else {
+                if (slideInterval) clearInterval(slideInterval); // หยุดสไลด์เมื่อย้ายหน้า
             }
         }
 
