@@ -8,7 +8,7 @@
 
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Confetti Library (สำหรับยิงพลุกระดาษ) -->
+    <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -89,7 +89,6 @@
         }
 
         /* ---------------- กล่องของขวัญ ---------------- */
-
         .gift {
             position: relative;
             width: 220px;
@@ -163,7 +162,6 @@
         }
 
         /* ---------------- Card ---------------- */
-
         .card {
             background: rgba(255,255,255,.9);
             border-radius: 25px;
@@ -172,7 +170,7 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.12);
         }
 
-        /* ---------------- Image Slider (เพิ่มใหม่) ---------------- */
+        /* ---------------- Image Slider ---------------- */
         .slider-container {
             position: relative;
             width: 200px;
@@ -237,7 +235,6 @@
         }
 
         /* ---------------- QR ---------------- */
-
         .qr-box {
             margin-top: 25px;
             background: white;
@@ -314,10 +311,8 @@
 
 <body>
 
-    <!-- 🎵 ไฟล์เพลง -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="tai.mp3" type="audio/mpeg">
-    </audio>
+    <!-- 🎵 ไฟล์เพลง (ไม่ต้องมี loop แล้วเพราะใช้ระบบ Playlist) -->
+    <audio id="bgMusic" preload="auto"></audio>
     <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
 
     <!-- หน้า 1 : QR Code -->
@@ -382,7 +377,7 @@
             <div class="card">
                 <h1>คนเก่งของเค้า 🐶</h1>
 
-                <!-- 🖼️ สไลด์โชว์รูปภาพ (ใส่ชื่อรูปภาพเพิ่มตรงนี้ได้เลย) -->
+                <!-- 🖼️ สไลด์โชว์รูปภาพ -->
                 <div class="slider-container">
                     <img src="sorat.jpg" class="slide-img active" alt="รูปที่ 1">
                     <img src="sorat2.jpg" class="slide-img" alt="รูปที่ 2">
@@ -420,7 +415,32 @@
 
         bgMusic.volume = 0.4; // ปรับความดังเพลง 40%
 
-        // 📌 คำนวณวันครบรอบ: ตั้งค่าเป็นวันที่ 19 กรกฎาคม 2026 (ปี 2026, เดือน 6 = กรกฎาคม, วันที่ 19)
+        // 🎵 รายชื่อเพลงที่คุณต้องการเพิ่ม (ใส่ชื่อไฟล์ไว้ตรงนี้ได้เลยครับ)
+        const playlist = [
+            "tai.mp3",
+            "song2.mp3",
+            "song3.mp3",
+            "song4.mp3",
+            "song5.mp3"
+            
+        ];
+        let currentTrackIndex = 0;
+
+        function loadTrack(index) {
+            bgMusic.src = playlist[index];
+        }
+
+        // เมื่อเพลงจบให้เล่นเพลงถัดไปทันที
+        bgMusic.addEventListener("ended", function() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            bgMusic.play();
+        });
+
+        // โหลดเพลงแรกเตรียมไว้
+        loadTrack(currentTrackIndex);
+
+        // 📌 คำนวณวันครบรอบ
         const startDate = new Date(2026, 6, 19); 
         const today = new Date();
         const diffTime = Math.abs(today - startDate);
@@ -442,7 +462,7 @@
                 if (typeIndex < fullMessage.length) {
                     element.innerHTML += fullMessage.charAt(typeIndex) === '\n' ? '<br>' : fullMessage.charAt(typeIndex);
                     typeIndex++;
-                    setTimeout(type, 50); // ความเร็วในการพิมพ์ (ms)
+                    setTimeout(type, 50);
                 } else {
                     isTyping = false;
                 }
@@ -477,16 +497,15 @@
 
         function startImageSlider() {
             const slides = document.querySelectorAll(".slide-img");
-            if (slides.length <= 1) return; // ถ้ารูปเดียวไม่ต้องเลื่อน
+            if (slides.length <= 1) return;
 
-            // เคลียร์ Interval เก่า (ถ้ามี)
             if (slideInterval) clearInterval(slideInterval);
 
             slideInterval = setInterval(() => {
                 slides[slideIndex].classList.remove("active");
                 slideIndex = (slideIndex + 1) % slides.length;
                 slides[slideIndex].classList.add("active");
-            }, 3000); // 3000ms = เลื่อนทุกๆ 3 วินาที
+            }, 3000);
         }
 
         function showPage(index) {
@@ -497,9 +516,9 @@
 
             if (index === 4) {
                 if (!isTyping) startTypingEffect();
-                startImageSlider(); // เริ่มสไลด์รูปเมื่อเปิดหน้า 5
+                startImageSlider();
             } else {
-                if (slideInterval) clearInterval(slideInterval); // หยุดสไลด์เมื่อย้ายหน้า
+                if (slideInterval) clearInterval(slideInterval);
             }
         }
 
@@ -552,6 +571,11 @@
         }
 
         document.addEventListener("click", function (event) {
+            // เมื่อคลิกปุ่มใดๆ ในหน้าเว็บ จะถือว่าเป็นการปฏิสัมพันธ์และเปิดเพลงทันที (ถ้ายังไม่ได้เล่น)
+            if (bgMusic.paused && event.target.dataset.action !== "music") {
+                startMusic();
+            }
+
             const button = event.target.closest("[data-action]");
             if (!button) return;
 
