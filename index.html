@@ -305,10 +305,27 @@
                 opacity: 0;
             }
         }
+    
+        .music-control {
+            position: fixed;
+            right: 15px;
+            bottom: 15px;
+            z-index: 9999;
+            margin: 0;
+            padding: 10px 16px;
+            font-size: 14px;
+        }
+
     </style>
 </head>
 
 <body>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="love-song.mp3" type="audio/mpeg">
+    </audio>
+    <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
+
 
     <!-- หน้า 1 : QR Code อย่างเดียว -->
     <section class="page active">
@@ -482,6 +499,27 @@
             }, 250);
         }
 
+
+        const bgMusic = document.getElementById("bgMusic");
+        const musicBtn = document.getElementById("musicBtn");
+
+        function startMusic() {
+            bgMusic.play().then(() => {
+                musicBtn.textContent = "🔊 ปิดเพลง";
+            }).catch(() => {
+                musicBtn.textContent = "🎵 เปิดเพลง";
+            });
+        }
+
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                startMusic();
+            } else {
+                bgMusic.pause();
+                musicBtn.textContent = "🎵 เปิดเพลง";
+            }
+        }
+
         document.addEventListener("click", function (event) {
             const button = event.target.closest("[data-action]");
             if (!button) return;
@@ -492,6 +530,7 @@
                 case "prev": prevPage(); break;
                 case "first": goFirst(); break;
                 case "gift": openGift(); break;
+                case "music": toggleMusic(); break;
             }
         });
 
@@ -509,6 +548,18 @@
         }
 
         createQRCode();
+
+
+        const qrElement = document.getElementById("qrcode");
+        if (qrElement) {
+            qrElement.style.cursor = "pointer";
+            qrElement.addEventListener("click", function () {
+                startMusic();
+                nextPage();
+            });
+        }
+
+
 
 /* หัวใจลอย */
 
