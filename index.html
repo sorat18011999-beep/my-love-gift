@@ -8,6 +8,8 @@
 
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Confetti Library (สำหรับยิงพลุกระดาษ) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         * {
@@ -22,7 +24,7 @@
             align-items: center;
             font-family: "Arial", sans-serif;
             background: linear-gradient(135deg, #ffd6e7, #fff0f6);
-            overflow: hidden;
+            overflow-x: hidden;
             color: #555;
         }
 
@@ -47,50 +49,6 @@
         }
 
         /* ---------------- หน้าแรก + QR ---------------- */
-        .front-card {
-            background: rgba(255,255,255,.92);
-            border-radius: 25px;
-            padding: 22px 20px;
-            width: 100%;
-            box-shadow: 0 10px 35px rgba(0,0,0,.12);
-        }
-
-        .front-photo {
-            width: min(230px, 75vw);
-            height: min(230px, 75vw);
-            object-fit: cover;
-            border-radius: 22px;
-            margin: 8px auto 16px;
-            display: block;
-            box-shadow: 0 8px 22px rgba(0,0,0,.12);
-        }
-
-        .front-qr-box {
-            margin: 14px auto 0;
-            background: white;
-            padding: 14px;
-            border-radius: 18px;
-            display: inline-block;
-            box-shadow: 0 5px 20px rgba(0,0,0,.1);
-        }
-
-        #qrcode-front {
-            display: flex;
-            justify-content: center;
-        }
-
-        .front-qr-text {
-            margin-top: 10px;
-            color: #ff6f9f;
-            font-weight: bold;
-        }
-
-        .front-small {
-            font-size: 13px;
-            color: #999;
-            margin-top: 5px;
-        }
-
         h1 {
             color: #ff6f9f;
             margin: 15px 0;
@@ -108,7 +66,7 @@
             border-radius: 30px;
             font-size: 17px;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
             box-shadow: 0 5px 15px rgba(255, 100, 150, .3);
             transition: .2s;
         }
@@ -219,8 +177,19 @@
             height: 200px;
             object-fit: cover;
             border-radius: 20px;
-            margin: 10px auto 20px;
+            margin: 10px auto 15px;
             display: block;
+        }
+
+        /* กล่องนับวัน */
+        .counter-box {
+            background: #ffe6f0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            color: #ff5d92;
+            margin-bottom: 15px;
+            display: inline-block;
         }
 
         .message {
@@ -230,6 +199,23 @@
             line-height: 1.9;
             font-size: 16px;
             color: #555;
+            text-align: left;
+            min-height: 180px;
+            white-space: pre-line;
+        }
+
+        /* กล่องสุ่มข้อความ */
+        .love-quote-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #fff;
+            border: 2px dashed #ff82aa;
+            border-radius: 15px;
+            color: #ff3b7b;
+            font-weight: bold;
+            font-size: 15px;
+            display: none;
+            animation: fadeIn 0.4s ease;
         }
 
         /* ---------------- QR ---------------- */
@@ -310,13 +296,13 @@
 
 <body>
 
-    <!-- 🎵 ส่วนของไฟล์เพลง (ปรับเปลี่ยนชื่อไฟล์ได้ตรง src) -->
+    <!-- 🎵 ไฟล์เพลง -->
     <audio id="bgMusic" loop preload="auto">
         <source src="tai.mp3" type="audio/mpeg">
     </audio>
     <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
 
-    <!-- หน้า 1 : QR Code อย่างเดียว -->
+    <!-- หน้า 1 : QR Code -->
     <section class="page active">
         <div class="content">
             <div class="qr-box" id="qrClickArea">
@@ -379,16 +365,21 @@
                 <h1>คนเก่งของเค้า 🐶</h1>
                 <img src="sorat.jpg" alt="รูปของเรา">
 
-                <div class="message">
-                    เค้าคิดถึงที่รักมากกก 💗<br>
-                    อยากกดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺<br>
-                    ขายของก็สู้ๆนะ<br>
-                    เค้าเป็นกำลังใจให้เสมอ ❤️<br>
-                    รีบกลับมาให้เค้ากอดนะ 🤗<br>
-                    อยากจุ๊บๆ 😘<br>
-                    เค้ารักที่รักที่สุดในโลก ❤️
+                <!-- 1. นับวันครบรอบ -->
+                <div class="counter-box">
+                    เรารักกันมาแล้ว <span id="daysCount" style="font-size: 20px;">0</span> วัน 💖
                 </div>
-                <br>
+
+                <!-- 3. ข้อความพิมพ์ทีละตัว -->
+                <div class="message" id="typeWriterMessage"></div>
+
+                <!-- 5. สุ่มคำบอกรัก -->
+                <button onclick="getRandomLoveQuote()" style="background: #ffb3ca; font-size: 14px; padding: 10px 20px;">
+                    🎲 สุ่มคำบอกรักของวันนี้
+                </button>
+                <div class="love-quote-box" id="quoteBox"></div>
+
+                <br><br>
                 <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
                 <button class="back-page" data-action="first">กลับไปหน้า QR 💗</button>
             </div>
@@ -401,14 +392,64 @@
         const bgMusic = document.getElementById("bgMusic");
         const musicBtn = document.getElementById("musicBtn");
 
-        // ปรับระดับเสียงเพลงเริ่มต้น (0.0 ถึง 1.0)
-        bgMusic.volume = 0.4;
+        bgMusic.volume = 0.4; // ปรับความดังเพลง 40%
+
+        // 📌 คำนวณวันครบรอบ: ตั้งค่าเป็นวันที่ 19 กรกฎาคม 2026 (ปี 2026, เดือน 6 = กรกฎาคม, วันที่ 19)
+        const startDate = new Date(2026, 6, 19); 
+        const today = new Date();
+        const diffTime = Math.abs(today - startDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        document.getElementById("daysCount").textContent = diffDays;
+
+        // ข้อความจดหมายสำหรับ Typing Effect
+        const fullMessage = `เค้าคิดถึงที่รักมากกก 💗\nอยากกอดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺\nขายของก็สู้ๆ นะ เค้าเป็นกำลังใจให้เสมอ ❤️\nรีบกลับมาให้เค้ากอดนะ 🤗\nอยากจุ๊บๆ 😘\nเค้ารักที่รักที่สุดในโลก ❤️`;
+        let typeIndex = 0;
+        let isTyping = false;
+
+        function startTypingEffect() {
+            const element = document.getElementById("typeWriterMessage");
+            element.innerHTML = "";
+            typeIndex = 0;
+            isTyping = true;
+
+            function type() {
+                if (typeIndex < fullMessage.length) {
+                    element.innerHTML += fullMessage.charAt(typeIndex) === '\n' ? '<br>' : fullMessage.charAt(typeIndex);
+                    typeIndex++;
+                    setTimeout(type, 50); // ความเร็วในการพิมพ์ (ms)
+                } else {
+                    isTyping = false;
+                }
+            }
+            type();
+        }
+
+        // คำบอกรักสำหรับสุ่ม
+        const loveQuotes = [
+            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
+            "ขอบคุณที่เข้ามาเป็นความสุขของเค้านะครับ 🥰",
+            "เหนื่อยไหมคนเก่ง มาให้เค้ากอดหน่อยเร็ว 🤗",
+            "รักเธอนะครับ ยิ้มเยอะๆ น้า 😊",
+            "ไม่ว่าจะเจออะไร เค้าอยู่ข้างๆ เธอเสมอนะ ❤️",
+            "วันนี้ก็น่ารักเหมือนเดิมเลยนะแฟนใครเนี่ย 🐶"
+        ];
+
+        function getRandomLoveQuote() {
+            const quoteBox = document.getElementById("quoteBox");
+            const randomText = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
+            quoteBox.textContent = randomText;
+            quoteBox.style.display = "block";
+        }
 
         function showPage(index) {
             if (index < 0 || index >= pages.length) return;
             pages.forEach((page, i) => page.classList.toggle("active", i === index));
             currentPage = index;
             window.scrollTo(0, 0);
+
+            if (index === 4 && !isTyping) {
+                startTypingEffect();
+            }
         }
 
         function nextPage() {
@@ -423,21 +464,29 @@
             showPage(0);
         }
 
+        // เปิดกล่องของขวัญ + ยิงพลุกระดาษ Confetti
         function openGift() {
             const gift = document.getElementById("gift");
             if (gift) gift.style.transform = "scale(1.06) rotate(2deg)";
+            
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff6f9f', '#ffb3ca', '#fff2a8', '#ff3b7b']
+            });
+
             setTimeout(() => {
                 if (gift) gift.style.transform = "";
                 nextPage();
-            }, 250);
+            }, 500);
         }
 
-        // ระบบควบคุมเสียงเพลง
+        // ระบบเสียงเพลง
         function startMusic() {
             bgMusic.play().then(() => {
                 musicBtn.textContent = "🔊 ปิดเพลง";
             }).catch((err) => {
-                console.log("Autoplay blocked:", err);
                 musicBtn.textContent = "🎵 เปิดเพลง";
             });
         }
@@ -451,7 +500,6 @@
             }
         }
 
-        // ระบบ Event Listener คลิกปุ่มควบคุม
         document.addEventListener("click", function (event) {
             const button = event.target.closest("[data-action]");
             if (!button) return;
@@ -465,7 +513,6 @@
             }
         });
 
-        // สร้าง QR Code หน้าแรก
         function createQRCode() {
             const qr = document.getElementById("qrcode");
             if (!qr || qr.innerHTML !== "") return;
@@ -479,7 +526,6 @@
             });
         }
 
-        // เมื่อกดที่กล่อง QR Code ให้เล่นเพลงและไปหน้าถัดไป
         const qrClickArea = document.getElementById("qrClickArea");
         if (qrClickArea) {
             qrClickArea.addEventListener("click", function () {
@@ -488,7 +534,6 @@
             });
         }
 
-        // สร้าง Effect หัวใจลอย
         function createHeart() {
             const heart = document.createElement("div");
             heart.className = "heart";
@@ -502,7 +547,6 @@
             }, 8000);
         }
 
-        // เริ่มการทำงานเมื่อโหลดหน้าเว็บ
         window.addEventListener("DOMContentLoaded", () => {
             createQRCode();
             setInterval(createHeart, 1800);
