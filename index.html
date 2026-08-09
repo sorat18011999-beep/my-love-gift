@@ -1,1 +1,547 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Gift for U 💗</title>
+
+    <!-- QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Arial", sans-serif;
+            background: linear-gradient(135deg, #ffd6e7, #fff0f6);
+            overflow: hidden;
+            color: #555;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+            animation: fadeIn .6s ease;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        .content {
+            width: 100%;
+        }
+
+        /* ---------------- หน้าแรก + QR ---------------- */
+        .front-card {
+            background: rgba(255,255,255,.92);
+            border-radius: 25px;
+            padding: 22px 20px;
+            width: 100%;
+            box-shadow: 0 10px 35px rgba(0,0,0,.12);
+        }
+
+        .front-photo {
+            width: min(230px, 75vw);
+            height: min(230px, 75vw);
+            object-fit: cover;
+            border-radius: 22px;
+            margin: 8px auto 16px;
+            display: block;
+            box-shadow: 0 8px 22px rgba(0,0,0,.12);
+        }
+
+        .front-qr-box {
+            margin: 14px auto 0;
+            background: white;
+            padding: 14px;
+            border-radius: 18px;
+            display: inline-block;
+            box-shadow: 0 5px 20px rgba(0,0,0,.1);
+        }
+
+        #qrcode-front {
+            display: flex;
+            justify-content: center;
+        }
+
+        .front-qr-text {
+            margin-top: 10px;
+            color: #ff6f9f;
+            font-weight: bold;
+        }
+
+        .front-small {
+            font-size: 13px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        h1 {
+            color: #ff6f9f;
+            margin: 15px 0;
+        }
+
+        h2 {
+            color: #ff82aa;
+        }
+
+        button {
+            border: none;
+            background: #ff78a5;
+            color: white;
+            padding: 13px 28px;
+            border-radius: 30px;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255, 100, 150, .3);
+            transition: .2s;
+        }
+
+        .back-page {
+            background: #fff;
+            color: #ff6f9f;
+            border: 2px solid #ffb3ca;
+            margin-left: 8px;
+        }
+
+        .back-page:hover {
+            background: #fff3f7;
+            transform: scale(1.03);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #ff5d92;
+        }
+
+        /* ---------------- กล่องของขวัญ ---------------- */
+
+        .gift {
+            position: relative;
+            width: 220px;
+            height: 190px;
+            margin: 35px auto 10px;
+            cursor: pointer;
+        }
+
+        .box {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 180px;
+            height: 120px;
+            background: #ff91b5;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,.15);
+        }
+
+        .lid {
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 200px;
+            height: 35px;
+            background: #ff6f9f;
+            border-radius: 6px;
+            z-index: 3;
+        }
+
+        .ribbon {
+            position: absolute;
+            left: 95px;
+            bottom: 0;
+            width: 30px;
+            height: 155px;
+            background: #fff2a8;
+            z-index: 4;
+        }
+
+        .ribbon-horizontal {
+            position: absolute;
+            left: 20px;
+            bottom: 50px;
+            width: 180px;
+            height: 25px;
+            background: #fff2a8;
+            z-index: 4;
+        }
+
+        .bow-left,
+        .bow-right {
+            position: absolute;
+            top: 0;
+            width: 65px;
+            height: 45px;
+            background: #ff6f9f;
+            border-radius: 50%;
+            z-index: 5;
+        }
+
+        .bow-left {
+            left: 45px;
+            transform: rotate(25deg);
+        }
+
+        .bow-right {
+            right: 45px;
+            transform: rotate(-25deg);
+        }
+
+        /* ---------------- Card ---------------- */
+
+        .card {
+            background: rgba(255,255,255,.9);
+            border-radius: 25px;
+            padding: 25px;
+            width: 100%;
+            box-shadow: 0 10px 35px rgba(0,0,0,.12);
+        }
+
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 10px auto 20px;
+            display: block;
+        }
+
+        .message {
+            background: #fff3f7;
+            border-radius: 18px;
+            padding: 20px;
+            line-height: 1.9;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* ---------------- QR ---------------- */
+
+        .qr-box {
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 5px 20px rgba(0,0,0,.1);
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+        }
+
+        .qr-text {
+            margin-top: 15px;
+            color: #ff6f9f;
+            font-weight: bold;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        // สร้าง QR หน้าแรกทันที
+        createQRCode("qrcode-front");
+
+
+        function restartGift() {
+            goFirst();
+        }
+
+        /* หัวใจลอย */
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            font-size: 20px;
+            animation: floatUp 8s linear infinite;
+            opacity: .7;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: .8;
+            }
+
+            100% {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- หน้า 1 : QR Code อย่างเดียว -->
+    <section class="page active">
+        <div class="content">
+            <div class="qr-box">
+                <div id="qrcode"></div>
+                <div class="qr-text">
+                    สแกนเพื่อเปิดของขวัญ 💗
+                </div>
+                <div class="small">
+                    สแกน QR นี้ด้วยมือถือได้เลย 🥰
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- หน้า 2 -->
+    <section class="page">
+        <div class="content">
+            <h2>
+                พร้อมหรือยัง? 🥺
+            </h2>
+
+            <h1>
+                มีของขวัญให้เธอ 🎁
+            </h1>
+
+            <button data-action="next">
+                Next ▶️
+            </button>
+
+            <button class="back-page" data-action="prev">
+                ◀️ ย้อนกลับ
+            </button>
+</div>
+    </section>
+
+
+    <!-- หน้า 3 -->
+    <section class="page">
+        <div class="content">
+            <h1>
+                คนเก่งของเค้า 🐶
+            </h1>
+
+            <p>
+                ของขวัญชิ้นนี้ตั้งใจทำให้เธอเลยนะ 💗
+            </p>
+
+            <button data-action="next">
+                Next ▶️
+            </button>
+
+            <button class="back-page" data-action="prev">
+                ◀️ ย้อนกลับ
+            </button>
+</div>
+    </section>
+
+
+    <!-- หน้า 4 -->
+    <section class="page">
+        <div class="content">
+
+            <h2>
+                Gift for U 💗
+            </h2>
+
+            <div class="gift" id="gift">
+
+                <div class="bow-left"></div>
+                <div class="bow-right"></div>
+
+                <div class="lid"></div>
+
+                <div class="box"></div>
+
+                <div class="ribbon"></div>
+
+                <div class="ribbon-horizontal"></div>
+
+            </div>
+
+            <button data-action="gift">
+                Open It 🎁
+            </button>
+
+            <button class="back-page" data-action="prev">
+                ◀️ ย้อนกลับ
+            </button>
+</div>
+    </section>
+
+
+    <!-- หน้า 5 -->
+    <section class="page">
+        <div class="content">
+
+            <div class="card">
+
+                <h1>
+                    คนเก่งของเค้า 🐶
+                </h1>
+
+                <!-- เปลี่ยน sorat.jpg เป็นรูปของแฟน -->
+                <img src="sorat(1).jpg" alt="รูปของเรา">
+
+                <div class="message">
+
+                    เค้าคิดถึงที่รักมากกก 💗<br>
+
+                    อยากกดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺<br>
+
+                    ขายของก็สู้ๆนะ<br>
+
+                    เค้าเป็นกำลังใจให้เสมอ ❤️<br>
+
+                    รีบกลับมาให้เค้ากอดนะ 🤗<br>
+
+                    อยากจุ๊บๆ 😘<br>
+
+                    เค้ารักที่รักที่สุดในโลก ❤️
+
+                </div>
+<br>
+
+                <button class="back" data-action="prev">
+                    ◀️ ย้อนกลับ
+                </button>
+                <button class="back" data-action="first">
+                    กลับไปหน้า QR 💗
+                </button>
+
+            </div>
+</div>
+    </section>
+
+
+    <script>
+
+                let currentPage = 0;
+        const pages = document.querySelectorAll(".page");
+
+        function showPage(index) {
+            if (index < 0 || index >= pages.length) return;
+            pages.forEach((page, i) => page.classList.toggle("active", i === index));
+            currentPage = index;
+            window.scrollTo(0, 0);
+        }
+
+        function nextPage() {
+            showPage(Math.min(currentPage + 1, pages.length - 1));
+        }
+
+        function prevPage() {
+            showPage(Math.max(currentPage - 1, 0));
+        }
+
+        function goFirst() {
+            showPage(0);
+        }
+
+        function openGift() {
+            const gift = document.getElementById("gift");
+            if (gift) gift.style.transform = "scale(1.06) rotate(2deg)";
+            setTimeout(() => {
+                if (gift) gift.style.transform = "";
+                nextPage();
+            }, 250);
+        }
+
+        document.addEventListener("click", function (event) {
+            const button = event.target.closest("[data-action]");
+            if (!button) return;
+            event.preventDefault();
+
+            switch (button.dataset.action) {
+                case "next": nextPage(); break;
+                case "prev": prevPage(); break;
+                case "first": goFirst(); break;
+                case "gift": openGift(); break;
+            }
+        });
+
+        function createQRCode() {
+            const qr = document.getElementById("qrcode");
+            if (!qr || qr.innerHTML !== "") return;
+            new QRCode(qr, {
+                text: "https://sorat18011999-beep.github.io/my-love-gift/",
+                width: 180,
+                height: 180,
+                colorDark: "#ff6f9f",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        createQRCode();
+
+/* หัวใจลอย */
+
+        function createHeart() {
+
+            const heart = document.createElement("div");
+
+            heart.className = "heart";
+
+            heart.innerHTML = ["💗", "💕", "💖", "💘", "❤️"][
+                Math.floor(Math.random() * 5)
+            ];
+
+            heart.style.left = Math.random() * 100 + "vw";
+
+            heart.style.animationDuration =
+                (4 + Math.random() * 4) + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+
+        }
+
+
+        // สร้าง QR ทันทีเมื่อเปิดเว็บ
+        createQRCode();
+
+        setInterval(createHeart, 1800);
+
+    </script>
+
+</body>
+</html>
