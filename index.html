@@ -6,7 +6,7 @@
 
     <title>Gift for U 💗</title>
 
-    <!-- QR Code -->
+    <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
@@ -138,6 +138,7 @@
             height: 190px;
             margin: 35px auto 10px;
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
         .box {
@@ -240,6 +241,7 @@
             border-radius: 20px;
             display: inline-block;
             box-shadow: 0 5px 20px rgba(0,0,0,.1);
+            cursor: pointer;
         }
 
         #qrcode {
@@ -264,23 +266,13 @@
                 opacity: 0;
                 transform: translateY(15px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        // สร้าง QR หน้าแรกทันที
-        createQRCode("qrcode-front");
-
-
-        function restartGift() {
-            goFirst();
-        }
-
         /* หัวใจลอย */
-
         .heart {
             position: fixed;
             bottom: -30px;
@@ -295,17 +287,15 @@
                 transform: translateY(0);
                 opacity: 0;
             }
-
             20% {
                 opacity: .8;
             }
-
             100% {
                 transform: translateY(-110vh);
                 opacity: 0;
             }
         }
-    
+
         .music-control {
             position: fixed;
             right: 15px;
@@ -315,161 +305,104 @@
             padding: 10px 16px;
             font-size: 14px;
         }
-
     </style>
 </head>
 
 <body>
 
+    <!-- 🎵 ส่วนของไฟล์เพลง (ปรับเปลี่ยนชื่อไฟล์ได้ตรง src) -->
     <audio id="bgMusic" loop preload="auto">
         <source src="love-song.mp3" type="audio/mpeg">
     </audio>
     <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
 
-
     <!-- หน้า 1 : QR Code อย่างเดียว -->
     <section class="page active">
         <div class="content">
-            <div class="qr-box">
+            <div class="qr-box" id="qrClickArea">
                 <div id="qrcode"></div>
                 <div class="qr-text">
                     สแกนเพื่อเปิดของขวัญ 💗
                 </div>
                 <div class="small">
-                    สแกน QR นี้ด้วยมือถือได้เลย 🥰
+                    (หรือคลิกที่ QR Code เพื่อเริ่มเล่นได้เลย 🥰)
                 </div>
             </div>
-
         </div>
     </section>
-
 
     <!-- หน้า 2 -->
     <section class="page">
         <div class="content">
-            <h2>
-                พร้อมหรือยัง? 🥺
-            </h2>
+            <h2>พร้อมหรือยัง? 🥺</h2>
+            <h1>มีของขวัญให้เธอ 🎁</h1>
 
-            <h1>
-                มีของขวัญให้เธอ 🎁
-            </h1>
-
-            <button data-action="next">
-                Next ▶️
-            </button>
-
-            <button class="back-page" data-action="prev">
-                ◀️ ย้อนกลับ
-            </button>
-</div>
+            <button data-action="next">Next ▶️</button>
+            <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
+        </div>
     </section>
-
 
     <!-- หน้า 3 -->
     <section class="page">
         <div class="content">
-            <h1>
-                คนเก่งของเค้า 🐶
-            </h1>
+            <h1>คนเก่งของเค้า 🐶</h1>
+            <p>ของขวัญชิ้นนี้ตั้งใจทำให้เธอเลยนะ 💗</p>
 
-            <p>
-                ของขวัญชิ้นนี้ตั้งใจทำให้เธอเลยนะ 💗
-            </p>
-
-            <button data-action="next">
-                Next ▶️
-            </button>
-
-            <button class="back-page" data-action="prev">
-                ◀️ ย้อนกลับ
-            </button>
-</div>
+            <button data-action="next">Next ▶️</button>
+            <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
+        </div>
     </section>
-
 
     <!-- หน้า 4 -->
     <section class="page">
         <div class="content">
+            <h2>Gift for U 💗</h2>
 
-            <h2>
-                Gift for U 💗
-            </h2>
-
-            <div class="gift" id="gift">
-
+            <div class="gift" id="gift" onclick="openGift()">
                 <div class="bow-left"></div>
                 <div class="bow-right"></div>
-
                 <div class="lid"></div>
-
                 <div class="box"></div>
-
                 <div class="ribbon"></div>
-
                 <div class="ribbon-horizontal"></div>
-
             </div>
 
-            <button data-action="gift">
-                Open It 🎁
-            </button>
-
-            <button class="back-page" data-action="prev">
-                ◀️ ย้อนกลับ
-            </button>
-</div>
+            <button data-action="gift">Open It 🎁</button>
+            <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
+        </div>
     </section>
-
 
     <!-- หน้า 5 -->
     <section class="page">
         <div class="content">
-
             <div class="card">
-
-                <h1>
-                    คนเก่งของเค้า 🐶
-                </h1>
-
-                <!-- เปลี่ยน sorat.jpg เป็นรูปของแฟน -->
+                <h1>คนเก่งของเค้า 🐶</h1>
                 <img src="sorat(1).jpg" alt="รูปของเรา">
 
                 <div class="message">
-
                     เค้าคิดถึงที่รักมากกก 💗<br>
-
                     อยากกดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺<br>
-
                     ขายของก็สู้ๆนะ<br>
-
                     เค้าเป็นกำลังใจให้เสมอ ❤️<br>
-
                     รีบกลับมาให้เค้ากอดนะ 🤗<br>
-
                     อยากจุ๊บๆ 😘<br>
-
                     เค้ารักที่รักที่สุดในโลก ❤️
-
                 </div>
-<br>
-
-                <button class="back" data-action="prev">
-                    ◀️ ย้อนกลับ
-                </button>
-                <button class="back" data-action="first">
-                    กลับไปหน้า QR 💗
-                </button>
-
+                <br>
+                <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
+                <button class="back-page" data-action="first">กลับไปหน้า QR 💗</button>
             </div>
-</div>
+        </div>
     </section>
 
-
     <script>
-
-                let currentPage = 0;
+        let currentPage = 0;
         const pages = document.querySelectorAll(".page");
+        const bgMusic = document.getElementById("bgMusic");
+        const musicBtn = document.getElementById("musicBtn");
+
+        // ปรับระดับเสียงเพลงเริ่มต้น (0.0 ถึง 1.0)
+        bgMusic.volume = 0.4;
 
         function showPage(index) {
             if (index < 0 || index >= pages.length) return;
@@ -499,14 +432,12 @@
             }, 250);
         }
 
-
-        const bgMusic = document.getElementById("bgMusic");
-        const musicBtn = document.getElementById("musicBtn");
-
+        // ระบบควบคุมเสียงเพลง
         function startMusic() {
             bgMusic.play().then(() => {
                 musicBtn.textContent = "🔊 ปิดเพลง";
-            }).catch(() => {
+            }).catch((err) => {
+                console.log("Autoplay blocked:", err);
                 musicBtn.textContent = "🎵 เปิดเพลง";
             });
         }
@@ -520,10 +451,10 @@
             }
         }
 
+        // ระบบ Event Listener คลิกปุ่มควบคุม
         document.addEventListener("click", function (event) {
             const button = event.target.closest("[data-action]");
             if (!button) return;
-            event.preventDefault();
 
             switch (button.dataset.action) {
                 case "next": nextPage(); break;
@@ -534,6 +465,7 @@
             }
         });
 
+        // สร้าง QR Code หน้าแรก
         function createQRCode() {
             const qr = document.getElementById("qrcode");
             if (!qr || qr.innerHTML !== "") return;
@@ -547,52 +479,34 @@
             });
         }
 
-        createQRCode();
-
-
-        const qrElement = document.getElementById("qrcode");
-        if (qrElement) {
-            qrElement.style.cursor = "pointer";
-            qrElement.addEventListener("click", function () {
+        // เมื่อกดที่กล่อง QR Code ให้เล่นเพลงและไปหน้าถัดไป
+        const qrClickArea = document.getElementById("qrClickArea");
+        if (qrClickArea) {
+            qrClickArea.addEventListener("click", function () {
                 startMusic();
                 nextPage();
             });
         }
 
-
-
-/* หัวใจลอย */
-
+        // สร้าง Effect หัวใจลอย
         function createHeart() {
-
             const heart = document.createElement("div");
-
             heart.className = "heart";
-
-            heart.innerHTML = ["💗", "💕", "💖", "💘", "❤️"][
-                Math.floor(Math.random() * 5)
-            ];
-
+            heart.innerHTML = ["💗", "💕", "💖", "💘", "❤️"][Math.floor(Math.random() * 5)];
             heart.style.left = Math.random() * 100 + "vw";
-
-            heart.style.animationDuration =
-                (4 + Math.random() * 4) + "s";
-
+            heart.style.animationDuration = (4 + Math.random() * 4) + "s";
             document.body.appendChild(heart);
 
             setTimeout(() => {
                 heart.remove();
             }, 8000);
-
         }
 
-
-        // สร้าง QR ทันทีเมื่อเปิดเว็บ
-        createQRCode();
-
-        setInterval(createHeart, 1800);
-
+        // เริ่มการทำงานเมื่อโหลดหน้าเว็บ
+        window.addEventListener("DOMContentLoaded", () => {
+            createQRCode();
+            setInterval(createHeart, 1800);
+        });
     </script>
-
 </body>
 </html>
