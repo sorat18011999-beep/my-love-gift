@@ -394,6 +394,7 @@
             100% { transform: translateY(-110vh); opacity: 0; }
         }
 
+        /* 🎵 ปุ่มควบคุมเพลงมุมล่างขวา */
         .music-control {
             position: fixed;
             right: 15px;
@@ -404,8 +405,13 @@
             font-size: 14px;
         }
 
+        .playlist-btn {
+            right: 125px !important;
+            background: #ff82aa !important;
+        }
+
         /* 🎁 สไตล์ป๊อปอัปฉลองวันที่ 19 */
-        .anniversary-modal {
+        .anniversary-modal, .playlist-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -418,7 +424,7 @@
             z-index: 10000;
         }
 
-        .anniversary-content {
+        .anniversary-content, .playlist-content {
             background: #fff;
             padding: 30px 20px;
             border-radius: 25px;
@@ -429,7 +435,7 @@
             border: 3px dashed #ff82aa;
         }
 
-        .anniversary-content h2 {
+        .anniversary-content h2, .playlist-content h3 {
             color: #ff3b7b;
             margin-bottom: 10px;
         }
@@ -449,6 +455,48 @@
             color: white;
             font-size: 16px;
         }
+
+        /* 📜 รายชื่อเพลงในป๊อปอัป */
+        .song-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding-right: 5px;
+            text-align: left;
+        }
+
+        .song-item {
+            background: #fff0f6;
+            border: 1.5px solid #ffb3ca;
+            color: #ff3b7b;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .song-item:hover, .song-item.playing {
+            background: #ff6f9f;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .close-playlist-btn {
+            background: #ccc;
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 15px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -456,7 +504,20 @@
 
     <!-- 🎵 ไฟล์เพลง -->
     <audio id="bgMusic" preload="auto"></audio>
+    <button id="playlistMenuBtn" class="music-control playlist-btn" data-action="toggle-playlist">🎶 เลือกเพลง</button>
     <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
+
+    <!-- 📜 เมนูเลือกเพลง Modal -->
+    <div id="playlistModal" class="playlist-modal">
+        <div class="playlist-content">
+            <h3>🎵 เลือกเพลงโปรดของเรา 💖</h3>
+            <p class="small" style="margin-bottom: 15px;">จิ้มเลือกเพลงที่อยากฟังได้เลยน้า</p>
+            
+            <div id="songListContainer" class="song-list"></div>
+
+            <button class="close-playlist-btn" onclick="togglePlaylistMenu()">ปิดหน้าต่าง</button>
+        </div>
+    </div>
 
     <!-- 🎉 ป๊อปอัปฉลองวันที่ 19 อัตโนมัติ -->
     <div id="anniversaryPopup" class="anniversary-modal">
@@ -602,24 +663,24 @@
 
         bgMusic.volume = 0.4;
 
-        // 🎵 กำหนดเพลงแยกกันชัดเจนระหว่างวันปกติ กับ วันที่ 19
+        // 🎵 ตั้งค่าเพลย์ลิสต์เพลงปกติ และเพลงวันครบรอบเฉพาะวันที่ 19
         const normalPlaylist = [
-            "tai.mp3",
-            "song2.mp3",
-            "song3.mp3",
-            "song4.mp3",
-            "song5.mp3"
-        ];
-        
-        const anniversaryPlaylist = [
-            "anniversary.mp3" // 👈 เพลงนี้จะเล่นเฉพาะวันที่ 19 เท่านั้น!
+            { file: "tai.mp3", name: "🎵 เพลงที่ 1: เพลงของเรา" },
+            { file: "song2.mp3", name: "🎵 เพลงที่ 2: วันสำคัญ" },
+            { file: "song3.mp3", name: "🎵 เพลงที่ 3: ความทรงจำ" },
+            { file: "song4.mp3", name: "🎵 เพลงที่ 4: เธอกับฉัน" },
+            { file: "song5.mp3", name: "🎵 เพลงที่ 5: รักเธอที่สุด" }
         ];
 
-        let playlist = normalPlaylist; // ค่าเริ่มต้นเป็นเพลงปกติ
+        const anniversaryPlaylist = [
+            { file: "anniversary.mp3", name: "🎉 เพลงพิเศษวันครบรอบ (วันที่ 19)" }
+        ];
+
+        let playlist = normalPlaylist;
         let currentTrackIndex = 0;
 
         function loadTrack(index) { 
-            bgMusic.src = playlist[index]; 
+            bgMusic.src = playlist[index].file; 
         }
 
         bgMusic.addEventListener("ended", function() {
@@ -628,13 +689,12 @@
             bgMusic.play();
         });
 
-        // 🗓️ ฟังก์ชันเช็กวันที่ 19 (ถ้าใช่ จะเปลี่ยนเพลย์ลิสต์เป็นเพลงพิเศษทันที)
+        // 🗓️ ฟังก์ชันเช็กวันที่ 19 (ถ้าใช่ สลับเป็นเพลงพิเศษ + เด้งป๊อปอัป)
         function checkAnniversaryDay() {
             const today = new Date();
-            const currentDay = today.getDate(); // ดึงวันที่ปัจจุบัน (1-31)
+            const currentDay = today.getDate();
 
             if (currentDay === 19) {
-                // ถ้าเป็นวันที่ 19 ให้สลับไปใช้เพลย์ลิสต์วันครบรอบ
                 playlist = anniversaryPlaylist;
                 currentTrackIndex = 0;
                 loadTrack(0);
@@ -642,7 +702,6 @@
                 const popup = document.getElementById("anniversaryPopup");
                 if (popup) {
                     popup.style.display = "flex";
-                    
                     confetti({
                         particleCount: 150,
                         spread: 120,
@@ -651,7 +710,6 @@
                     });
                 }
             } else {
-                // ถ้าไม่ใช่ ให้ใช้เพลย์ลิสต์ปกติ
                 playlist = normalPlaylist;
                 loadTrack(0);
             }
@@ -659,12 +717,44 @@
 
         function closeAnniversaryPopup() {
             const popup = document.getElementById("anniversaryPopup");
-            if (popup) {
-                popup.style.display = "none";
+            if (popup) popup.style.display = "none";
+        }
+
+        // 🎶 ระบบเลือกเพลง
+        function renderSongList() {
+            const container = document.getElementById("songListContainer");
+            if (!container) return;
+            container.innerHTML = "";
+
+            playlist.forEach((song, index) => {
+                const btn = document.createElement("div");
+                btn.className = `song-item ${currentTrackIndex === index ? 'playing' : ''}`;
+                btn.innerHTML = `<span>${song.name}</span> ${currentTrackIndex === index ? '▶️' : ''}`;
+                btn.onclick = () => playSelectedSong(index);
+                container.appendChild(btn);
+            });
+        }
+
+        function playSelectedSong(index) {
+            currentTrackIndex = index;
+            loadTrack(currentTrackIndex);
+            bgMusic.play().then(() => {
+                musicBtn.textContent = "🔊 ปิดเพลง";
+            });
+            renderSongList();
+            togglePlaylistMenu();
+        }
+
+        function togglePlaylistMenu() {
+            const modal = document.getElementById("playlistModal");
+            if (modal) {
+                const isOpen = modal.style.display === "flex";
+                modal.style.display = isOpen ? "none" : "flex";
+                if (!isOpen) renderSongList();
             }
         }
 
-        // 💌 คำบอกรักสำหรับสุ่ม 10 คำ
+        // 💌 คำบอกรักสำหรับสุ่ม
         const loveQuotes = [
             "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
             "ขอบคุณที่เข้ามาเป็นความสุขของเค้านะครับ 🥰",
@@ -682,7 +772,6 @@
             const randomIndex = Math.floor(Math.random() * loveQuotes.length);
             document.getElementById("quoteDisplay").innerText = loveQuotes[randomIndex];
 
-            // 🎉 เอฟเฟกต์หัวใจกระจายตอนกดสุ่ม
             confetti({
                 particleCount: 25,
                 spread: 50,
@@ -692,7 +781,7 @@
             });
         }
 
-        // 🖼️ ระบบเปลี่ยนรูปใน สไลด์โชว์
+        // 🖼️ สไลด์โชว์รูปภาพ
         let slideIndex = 0;
         let sliderInterval = null;
 
@@ -708,7 +797,7 @@
             }, 3000);
         }
 
-        // ⏳ Real-Time Timer (ตั้งค่าเป็น 19 กรกฎาคม 2026)
+        // ⏳ Real-Time Timer (19 กรกฎาคม 2026)
         const startDate = new Date(2026, 6, 19, 0, 0, 0); 
 
         function updateTimer() {
@@ -735,7 +824,7 @@
             card.classList.toggle('flipped');
         }
 
-        // 🎯 ปุ่มฉุกเฉิน เติมพลังใจ
+        // 🎯 ปุ่มฉุกเฉิน
         function triggerEmergencyHug() {
             confetti({
                 particleCount: 120,
@@ -746,12 +835,12 @@
             alert("💖 เติมพลังกอด 100%! ไม่ว่าจะเหนื่อยแค่ไหน เค้าอยู่ข้างๆ เธอเสมอนะครับคนเก่ง สู้ๆ นะ! 🐶✨");
         }
 
-        // 💌 ส่งข้อความกอดเข้า LINE ส่วนตัว
+        // 💌 ส่งข้อความเข้า LINE
         function sendLineHug() {
             window.open("https://line.me/ti/p/18qT2zVpNT", '_blank');
         }
 
-        // ข้อความ Typing Effect
+        // Typing Effect
         const fullMessage = `เค้าคิดถึงที่รักมากกก 💗\nอยากกอดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺\nขายของก็สู้ๆ นะ เค้าเป็นกำลังใจให้เสมอ ❤️\nรีบกลับมาให้เค้ากอดนะ 🤗\nอยากจุ๊บๆ 😘\nเค้ารักที่รักที่สุดในโลก ❤️`;
         let typeIndex = 0;
         let isTyping = false;
@@ -839,6 +928,7 @@
                 case "first": goFirst(); break;
                 case "gift": openGift(); break;
                 case "music": toggleMusic(); break;
+                case "toggle-playlist": togglePlaylistMenu(); break;
             }
         });
 
@@ -877,7 +967,7 @@
         window.addEventListener("DOMContentLoaded", () => {
             createQRCode();
             setInterval(createHeart, 1800);
-            checkAnniversaryDay(); // เรียกเช็กวันครบรอบวันที่ 19 และสลับเพลงทันทีที่เปิดเว็บ
+            checkAnniversaryDay();
         });
     </script>
 </body>
