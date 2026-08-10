@@ -205,6 +205,43 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.12);
         }
 
+        /* 🔐 หน้าล็อกรหัสผ่านเซฟลับ */
+        .passcode-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px 20px;
+            width: 100%;
+            box-shadow: 0 10px 35px rgba(0,0,0,.12);
+            border: 2px dashed #ff82aa;
+        }
+
+        .passcode-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            text-align: center;
+            border: 2px solid #ffb3ca;
+            border-radius: 20px;
+            outline: none;
+            color: #ff3b7b;
+            background: #fff0f6;
+            margin: 15px 0;
+            letter-spacing: 4px;
+        }
+
+        .passcode-input:focus {
+            border-color: #ff6f9f;
+            box-shadow: 0 0 10px rgba(255, 111, 159, 0.3);
+        }
+
+        .passcode-error {
+            color: #ff3b7b;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
         /* 📸 รูปสไตล์ Polaroid พลิกได้ (3D Flip) */
         .polaroid-container {
             width: 210px;
@@ -264,7 +301,7 @@
             transform: rotateY(180deg);
             border: 2px dashed #ff82aa;
             color: #ff3b7b;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.6;
             text-align: center;
             font-weight: bold;
@@ -316,7 +353,7 @@
             border-radius: 18px;
             padding: 20px;
             line-height: 1.9;
-            font-size: 16px;
+            font-size: 15px;
             color: #555;
             text-align: left;
             min-height: 180px;
@@ -592,7 +629,24 @@
         </div>
     </section>
 
-    <!-- หน้า 5 : การ์ดจดหมาย & นับเวลา -->
+    <!-- หน้า 5 : 🔐 เซฟลับรหัสผ่าน (ก่อนเข้าหน้าสุดท้าย) -->
+    <section class="page">
+        <div class="content">
+            <div class="passcode-container">
+                <h2>🔐 เซฟลับความทรงจำ</h2>
+                <p class="small" style="margin-bottom: 10px;">ใส่รหัสผ่านลับ (วันสำคัญของเรา DDMMYYYY) เพื่อเปิดกล่องความในใจ 💖</p>
+                
+                <input type="password" id="passcodeInput" class="passcode-input" placeholder="••••••••" maxlength="8">
+                <br>
+                <button onclick="checkPasscode()">ปลดล็อกเซฟลับ ✨</button>
+                <div id="passcodeError" class="passcode-error"></div>
+            </div>
+            <br>
+            <button class="back-page" data-action="prev">◀️ ย้อนกลับ</button>
+        </div>
+    </section>
+
+    <!-- หน้า 6 : การ์ดจดหมาย & นับเวลา (หน้าสุดท้าย) -->
     <section class="page">
         <div class="content">
             <div class="card">
@@ -754,6 +808,30 @@
             }
         }
 
+        // 🔐 ตรวจสอบรหัสผ่านเซฟลับ (19072026)
+        function checkPasscode() {
+            const input = document.getElementById("passcodeInput").value;
+            const errorText = document.getElementById("passcodeError");
+
+            if (input === "19072026") {
+                errorText.innerHTML = "";
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#ff3b7b', '#ff6f9f', '#fff2a8']
+                });
+                document.getElementById("passcodeInput").value = "";
+                nextPage(); // ไปหน้าจดหมายหน้าสุดท้าย
+            } else {
+                errorText.innerHTML = "❌ รหัสผ่านไม่ถูกต้องจ้า ลองนึกดูดีๆ น้า 🥺";
+                const container = document.querySelector(".passcode-container");
+                container.style.transform = "translateX(10px)";
+                setTimeout(() => container.style.transform = "translateX(-10px)", 100);
+                setTimeout(() => container.style.transform = "translateX(0)", 200);
+            }
+        }
+
         // 💌 คำบอกรักสำหรับสุ่ม
         const loveQuotes = [
             "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
@@ -840,8 +918,8 @@
             window.open("https://line.me/ti/p/18qT2zVpNT", '_blank');
         }
 
-        // Typing Effect
-        const fullMessage = `เค้าคิดถึงที่รักมากกก 💗\nอยากกอดทุกวัน อยากอยู่ด้วยทุกวันเลย 🥺\nขายของก็สู้ๆ นะ เค้าเป็นกำลังใจให้เสมอ ❤️\nรีบกลับมาให้เค้ากอดนะ 🤗\nอยากจุ๊บๆ 😘\nเค้ารักที่รักที่สุดในโลก ❤️`;
+        // Typing Effect พร้อมข้อความหวานๆ ซึ้งๆ ในเซฟลับ
+        const fullMessage = `ยินดีด้วยนะคนเก่ง ที่ไขเซฟลับนี้สำเร็จ! 🔐💖\n\nเค้าตั้งใจทำเว็บนี้ขึ้นมาเพื่อเก็บรวบรวมความทรงจำของเราโดยเฉพาะเลยนะ ขอบคุณที่เข้ามาเป็นรอยยิ้ม เป็นกำลังใจ และทำให้ทุกๆ วันของเค้ามีความหมายมากๆ ขนาดนี้\n\nไม่ว่าวันข้างหน้าจะเจอเรื่องเหนื่อยหรือเรื่องยากแค่ไหน จำไว้นะว่ามีเค้าคนนี้คอยยืนอยู่ข้างๆ และพร้อมโอบกอดเธอเสมอ รักที่รักที่สุดในโลกเลยนะ ❤️✨`;
         let typeIndex = 0;
         let isTyping = false;
 
@@ -871,7 +949,7 @@
 
             if (index === 1) {
                 startImageSlider();
-            } else if (index === 4 && !isTyping) {
+            } else if (index === 5 && !isTyping) { // หน้าสุดท้ายคือ Index 5
                 startTypingEffect();
             }
         }
