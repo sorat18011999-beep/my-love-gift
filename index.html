@@ -602,18 +602,25 @@
 
         bgMusic.volume = 0.4;
 
-        // 🎵 รายชื่อเพลงทั้งหมด 5 เพลง
-        const playlist = [
-            "anniversary.mp3",
+        // 🎵 กำหนดเพลงแยกกันชัดเจนระหว่างวันปกติ กับ วันที่ 19
+        const normalPlaylist = [
             "tai.mp3",
             "song2.mp3",
             "song3.mp3",
             "song4.mp3",
             "song5.mp3"
         ];
+        
+        const anniversaryPlaylist = [
+            "anniversary.mp3" // 👈 เพลงนี้จะเล่นเฉพาะวันที่ 19 เท่านั้น!
+        ];
+
+        let playlist = normalPlaylist; // ค่าเริ่มต้นเป็นเพลงปกติ
         let currentTrackIndex = 0;
 
-        function loadTrack(index) { bgMusic.src = playlist[index]; }
+        function loadTrack(index) { 
+            bgMusic.src = playlist[index]; 
+        }
 
         bgMusic.addEventListener("ended", function() {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
@@ -621,7 +628,41 @@
             bgMusic.play();
         });
 
-        loadTrack(currentTrackIndex);
+        // 🗓️ ฟังก์ชันเช็กวันที่ 19 (ถ้าใช่ จะเปลี่ยนเพลย์ลิสต์เป็นเพลงพิเศษทันที)
+        function checkAnniversaryDay() {
+            const today = new Date();
+            const currentDay = today.getDate(); // ดึงวันที่ปัจจุบัน (1-31)
+
+            if (currentDay === 19) {
+                // ถ้าเป็นวันที่ 19 ให้สลับไปใช้เพลย์ลิสต์วันครบรอบ
+                playlist = anniversaryPlaylist;
+                currentTrackIndex = 0;
+                loadTrack(0);
+
+                const popup = document.getElementById("anniversaryPopup");
+                if (popup) {
+                    popup.style.display = "flex";
+                    
+                    confetti({
+                        particleCount: 150,
+                        spread: 120,
+                        origin: { y: 0.5 },
+                        colors: ['#ff3b7b', '#ff6f9f', '#fff2a8', '#ffb3ca']
+                    });
+                }
+            } else {
+                // ถ้าไม่ใช่ ให้ใช้เพลย์ลิสต์ปกติ
+                playlist = normalPlaylist;
+                loadTrack(0);
+            }
+        }
+
+        function closeAnniversaryPopup() {
+            const popup = document.getElementById("anniversaryPopup");
+            if (popup) {
+                popup.style.display = "none";
+            }
+        }
 
         // 💌 คำบอกรักสำหรับสุ่ม 10 คำ
         const loveQuotes = [
@@ -687,33 +728,6 @@
 
         setInterval(updateTimer, 1000);
         updateTimer();
-
-        // 🗓️ ฟังก์ชันเช็กว่าเป็นวันที่ 19 หรือไม่
-        function checkAnniversaryDay() {
-            const today = new Date();
-            const currentDay = today.getDate(); // ดึงวันที่ปัจจุบัน (1-31)
-
-            if (currentDay === 19) {
-                const popup = document.getElementById("anniversaryPopup");
-                if (popup) {
-                    popup.style.display = "flex";
-                    
-                    confetti({
-                        particleCount: 150,
-                        spread: 120,
-                        origin: { y: 0.5 },
-                        colors: ['#ff3b7b', '#ff6f9f', '#fff2a8', '#ffb3ca']
-                    });
-                }
-            }
-        }
-
-        function closeAnniversaryPopup() {
-            const popup = document.getElementById("anniversaryPopup");
-            if (popup) {
-                popup.style.display = "none";
-            }
-        }
 
         // 📸 พลิกรูป Polaroid
         function flipPolaroid(container) {
@@ -863,7 +877,7 @@
         window.addEventListener("DOMContentLoaded", () => {
             createQRCode();
             setInterval(createHeart, 1800);
-            checkAnniversaryDay(); // เรียกเช็กวันครบรอบวันที่ 19 ทันทีที่เปิดเว็บ
+            checkAnniversaryDay(); // เรียกเช็กวันครบรอบวันที่ 19 และสลับเพลงทันทีที่เปิดเว็บ
         });
     </script>
 </body>
