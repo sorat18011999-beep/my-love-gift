@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Gift for U 💗</title>
 
     <!-- QR Code Library -->
@@ -404,6 +403,52 @@
             padding: 10px 16px;
             font-size: 14px;
         }
+
+        /* 🎁 สไตล์ป๊อปอัปฉลองวันที่ 19 */
+        .anniversary-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .anniversary-content {
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 100, 150, 0.3);
+            border: 3px dashed #ff82aa;
+        }
+
+        .anniversary-content h2 {
+            color: #ff3b7b;
+            margin-bottom: 10px;
+        }
+
+        .anniversary-content p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .anniversary-content button {
+            background: #ff6f9f;
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            color: white;
+            font-size: 16px;
+        }
     </style>
 </head>
 
@@ -412,6 +457,15 @@
     <!-- 🎵 ไฟล์เพลง -->
     <audio id="bgMusic" preload="auto"></audio>
     <button id="musicBtn" class="music-control" data-action="music">🎵 เปิดเพลง</button>
+
+    <!-- 🎉 ป๊อปอัปฉลองวันที่ 19 อัตโนมัติ -->
+    <div id="anniversaryPopup" class="anniversary-modal">
+        <div class="anniversary-content">
+            <h2>🎉 Happy Anniversary นะคนเก่ง! 💖</h2>
+            <p>เย้! วันนี้วันที่ 19 อีกแล้วน้า ครบรอบเดือนอีกหนึ่งเดือนที่เราจับมือเดินทางด้วยกัน ขอบคุณที่อยู่ข้างๆ และสร้างรอยยิ้มให้เค้าทุกวันเลยนะ รักเธอนะคะ/ครับ 🥰✨</p>
+            <button onclick="closeAnniversaryPopup()">รับกอดแน่นๆ 🤗</button>
+        </div>
+    </div>
 
     <!-- หน้า 1 : QR Code -->
     <section class="page active">
@@ -429,7 +483,6 @@
         <div class="content">
             <h2>Our Memories 📸</h2>
             
-            <!-- 🖼️ สไลด์โชว์รูปภาพ -->
             <div class="slider-container">
                 <img src="sorat.jpg" class="slide-img active" alt="รูปที่ 1">
                 <img src="sorat2.jpg" class="slide-img" alt="รูปที่ 2">
@@ -498,7 +551,7 @@
                     </div>
                 </div>
 
-                <!-- ⏳ นาฬิการักกันมาแล้วแบบ Real-time แสดงครบ วัน/ชม./นาที/วิ -->
+                <!-- ⏳ นาฬิการักกันมาแล้วแบบ Real-time -->
                 <div class="counter-box">
                     เรารักกันมาแล้ว 💖
                     <div class="timer-grid">
@@ -586,6 +639,15 @@
         function getRandomQuote() {
             const randomIndex = Math.floor(Math.random() * loveQuotes.length);
             document.getElementById("quoteDisplay").innerText = loveQuotes[randomIndex];
+
+            // 🎉 เอฟเฟกต์หัวใจกระจายตอนกดสุ่ม
+            confetti({
+                particleCount: 25,
+                spread: 50,
+                origin: { y: 0.6 },
+                shapes: ['circle'],
+                colors: ['#ff3b7b', '#ff6f9f', '#ffb3ca']
+            });
         }
 
         // 🖼️ ระบบเปลี่ยนรูปใน สไลด์โชว์
@@ -624,6 +686,33 @@
 
         setInterval(updateTimer, 1000);
         updateTimer();
+
+        // 🗓️ ฟังก์ชันเช็กว่าเป็นวันที่ 19 หรือไม่
+        function checkAnniversaryDay() {
+            const today = new Date();
+            const currentDay = today.getDate(); // ดึงวันที่ปัจจุบัน (1-31)
+
+            if (currentDay === 19) {
+                const popup = document.getElementById("anniversaryPopup");
+                if (popup) {
+                    popup.style.display = "flex";
+                    
+                    confetti({
+                        particleCount: 150,
+                        spread: 120,
+                        origin: { y: 0.5 },
+                        colors: ['#ff3b7b', '#ff6f9f', '#fff2a8', '#ffb3ca']
+                    });
+                }
+            }
+        }
+
+        function closeAnniversaryPopup() {
+            const popup = document.getElementById("anniversaryPopup");
+            if (popup) {
+                popup.style.display = "none";
+            }
+        }
 
         // 📸 พลิกรูป Polaroid
         function flipPolaroid(container) {
@@ -773,6 +862,7 @@
         window.addEventListener("DOMContentLoaded", () => {
             createQRCode();
             setInterval(createHeart, 1800);
+            checkAnniversaryDay(); // เรียกเช็กวันครบรอบวันที่ 19 ทันทีที่เปิดเว็บ
         });
     </script>
 </body>
