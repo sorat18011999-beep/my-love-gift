@@ -8,6 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -20,7 +22,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: "Arial", sans-serif;
+            font-family: 'Kanit', sans-serif;
             background: linear-gradient(135deg, #ffd6e7, #fff0f6);
             overflow-x: hidden;
             color: #555;
@@ -65,6 +67,7 @@
             font-size: 17px;
             cursor: pointer;
             margin-top: 12px;
+            font-family: 'Kanit', sans-serif;
             box-shadow: 0 5px 15px rgba(255, 100, 150, .3);
             transition: .2s;
         }
@@ -204,173 +207,6 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.12);
         }
 
-        /* 💬 ห้องแชต (Secret Chat) พร้อมส่งรูปภาพ & อัดเสียง & อีโมจิ */
-        .chat-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 15px;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,.1);
-            border: 2px solid #ffb3ca;
-            display: flex;
-            flex-direction: column;
-            height: 470px;
-        }
-
-        .chat-box {
-            flex: 1;
-            background: #fff9fc;
-            border-radius: 15px;
-            padding: 10px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            border: 1px dashed #ffc0cb;
-            margin-bottom: 8px;
-            text-align: left;
-        }
-
-        .chat-message {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 15px;
-            font-size: 14px;
-            line-height: 1.4;
-            word-wrap: break-word;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .chat-message.sent {
-            background: #ff78a5;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 3px;
-        }
-
-        .chat-message.received {
-            background: #ffe6f0;
-            color: #ff3b7b;
-            align-self: flex-start;
-            border-bottom-left-radius: 3px;
-            font-weight: bold;
-        }
-
-        /* 🖼️ สไตล์รูปภาพที่ส่งในแชต */
-        .chat-img {
-            max-width: 180px;
-            max-height: 180px;
-            border-radius: 10px;
-            object-fit: cover;
-            display: block;
-            margin-top: 4px;
-        }
-
-        /* 🎙️ สไตล์ข้อความเสียง */
-        .voice-msg-player {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 160px;
-        }
-
-        .play-voice-btn {
-            background: #ffffff !important;
-            color: #ff3b7b !important;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
-            padding: 0 !important;
-            margin-top: 0 !important;
-        }
-
-        .voice-waves {
-            font-size: 13px;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
-
-        /* 💖 แถบเลือกอิโมจิด่วน */
-        .emoji-bar {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .emoji-btn {
-            background: #fff0f6;
-            border: 1px solid #ffb3ca;
-            border-radius: 12px;
-            padding: 5px 9px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 0 !important;
-            box-shadow: none !important;
-            flex-shrink: 0;
-        }
-
-        .emoji-btn:hover {
-            background: #ff78a5;
-            transform: scale(1.15);
-        }
-
-        .chat-input-area {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 2px solid #ffb3ca;
-            border-radius: 20px;
-            outline: none;
-            font-size: 14px;
-            background: #fff;
-            color: #555;
-        }
-
-        .chat-input:focus {
-            border-color: #ff6f9f;
-        }
-
-        .chat-action-btn {
-            margin-top: 0 !important;
-            padding: 10px 12px !important;
-            border-radius: 20px !important;
-            font-size: 14px !important;
-        }
-
-        .image-btn {
-            background: #ffa8c5 !important;
-        }
-
-        .mic-btn {
-            background: #ff82aa !important;
-        }
-
-        .mic-btn.recording {
-            background: #ff3b7b !important;
-            animation: pulseRecord 1s infinite;
-        }
-
-        @keyframes pulseRecord {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 123, 0.4); }
-            70% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(255, 59, 123, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 123, 0); }
-        }
-
         /* 🔐 หน้าล็อกรหัสผ่านเซฟลับ */
         .passcode-container {
             background: rgba(255, 255, 255, 0.95);
@@ -393,6 +229,7 @@
             background: #fff0f6;
             margin: 15px 0;
             letter-spacing: 4px;
+            font-family: 'Kanit', sans-serif;
         }
 
         .passcode-input:focus {
@@ -685,6 +522,119 @@
             font-size: 15px;
             margin-top: 5px;
         }
+
+        /* ---------------- 💬 สไตล์แชตและบันทึกเสียง ---------------- */
+        .chat-container-wrapper {
+            width: 100%;
+            height: 420px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 15px 0;
+            text-align: left;
+            border: 2px solid #ffb3ca;
+        }
+        .chat-header-custom {
+            background: #ff6f9f;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fdf2f7;
+        }
+        .message-bubble {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .message-bubble.user {
+            background: #ff6f9f;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .message-bubble.bot {
+            background: #e4e6eb;
+            color: #050505;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-input-area {
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ffd1e0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ffb3ca;
+            border-radius: 20px;
+            outline: none;
+            font-family: 'Kanit', sans-serif;
+            font-size: 14px;
+        }
+        .chat-btn {
+            background: #ff6f9f;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            font-size: 14px;
+            transition: background 0.2s;
+            margin-top: 0;
+            box-shadow: none;
+        }
+        .chat-btn:hover {
+            background: #ff5d92;
+            transform: none;
+        }
+        .btn-record {
+            background: #ffe6f0;
+            color: #ff3b7b;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-size: 16px;
+            border: 1px solid #ffb3ca;
+        }
+        .btn-record.recording {
+            background: #ff3b30;
+            color: white;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .message-bubble audio {
+            max-width: 180px;
+            height: 32px;
+        }
     </style>
 </head>
 
@@ -780,61 +730,7 @@
         </div>
     </section>
 
-    <!-- หน้า 5 : 💬 ห้องแชตลับของเรา (เพิ่มปุ่มส่งรูปภาพ & อัดเสียง & อีโมจิ) -->
-    <section class="page">
-        <div class="content">
-            <h2>ห้องแชตลับของเรา 💌</h2>
-            <p class="small" style="margin-bottom: 8px;">ส่งรูปภาพ พิมพ์คุยกัน หรือกดอัดเสียงได้เลยน้า 🥰</p>
-            
-            <div class="chat-container">
-                <div class="chat-box" id="chatBox"></div>
-                
-                <!-- 💖 แถบเลือกอิโมจิด่วน -->
-                <div class="emoji-bar">
-                    <button class="emoji-btn" onclick="insertEmoji('❤️')">❤️</button>
-                    <button class="emoji-btn" onclick="insertEmoji('💖')">💖</button>
-                    <button class="emoji-btn" onclick="insertEmoji('💕')">💕</button>
-                    <button class="emoji-btn" onclick="insertEmoji('💗')">💗</button>
-                    <button class="emoji-btn" onclick="insertEmoji('💓')">💓</button>
-                    <button class="emoji-btn" onclick="insertEmoji('💞')">💞</button>
-                    <button class="emoji-btn" onclick="insertEmoji('💘')">💘</button>
-                    <button class="emoji-btn" onclick="insertEmoji('✨')">✨</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🌟')">🌟</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🥰')">🥰</button>
-                    <button class="emoji-btn" onclick="insertEmoji('😘')">😘</button>
-                    <button class="emoji-btn" onclick="insertEmoji('😍')">😍</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🥺')">🥺</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🤗')">🤗</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🐶')">🐶</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🐱')">🐱</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🐰')">🐰</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🐻')">🐻</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🌷')">🌷</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🌹')">🌹</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🌻')">🌻</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🍰')">🍰</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🍫')">🍫</button>
-                    <button class="emoji-btn" onclick="insertEmoji('🎉')">🎉</button>
-                    <button class="emoji-btn" onclick="insertEmoji('👍')">👍</button>
-                </div>
-
-                <div class="chat-input-area">
-                    <!-- 🖼️ ปุ่มซ่อนสำหรับอัปโหลดรูปภาพ -->
-                    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="sendImageMessage(event)">
-                    <button class="chat-action-btn image-btn" onclick="document.getElementById('imageInput').click()" title="ส่งรูปภาพ">🖼️</button>
-                    
-                    <input type="text" id="chatInput" class="chat-input" placeholder="พิมพ์ข้อความ..." onkeypress="handleChatKeyPress(event)">
-                    <button id="micBtn" class="chat-action-btn mic-btn" onclick="toggleRecordVoice()" title="กดเพื่ออัดเสียง">🎙️</button>
-                    <button class="chat-action-btn" onclick="sendChatMessage()">ส่ง 💖</button>
-                </div>
-            </div>
-            <br>
-            <button onclick="nextPage()">ไปหน้าเซฟลับ ▶️</button>
-            <button class="back-page" onclick="prevPage()">◀️ ย้อนกลับ</button>
-        </div>
-    </section>
-
-    <!-- หน้า 6 : 🔐 เซฟลับรหัสผ่าน -->
+    <!-- หน้า 5 : 🔐 เซฟลับรหัสผ่าน -->
     <section class="page">
         <div class="content">
             <div class="passcode-container">
@@ -851,7 +747,7 @@
         </div>
     </section>
 
-    <!-- หน้า 7 : การ์ดจดหมาย & นับเวลา -->
+    <!-- หน้า 6 : การ์ดจดหมาย & นับเวลา & ห้องแชตคู่รัก -->
     <section class="page">
         <div class="content">
             <div class="card">
@@ -896,6 +792,19 @@
 
                 <!-- ข้อความพิมพ์ทีละตัว -->
                 <div class="message" id="typeWriterMessage"></div>
+
+                <!-- 💬 ห้องแชต & บันทึกเสียงคู่รัก -->
+                <div class="chat-container-wrapper">
+                    <div class="chat-header-custom">💬 ห้องแชตบอกรัก & อัดเสียงความในใจ</div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message-bubble bot">สวัสดีค่ะ/ครับคนเก่ง! พิมพ์ข้อความหาเค้า หรือกดอัดเสียงส่งความหวานหากันได้เลยนะ 🎙️💖</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <button class="chat-btn btn-record" id="recordBtn" title="อัดเสียง">🎙️</button>
+                        <input type="text" id="messageInput" placeholder="พิมพ์ข้อความ..." autocomplete="off">
+                        <button class="chat-btn" id="sendBtn">ส่ง</button>
+                    </div>
+                </div>
 
                 <!-- 🎯 ปุ่มฉุกเฉินถ้าเหนื่อย/คิดถึง -->
                 <button class="emergency-btn" onclick="triggerEmergencyHug()">
@@ -999,371 +908,259 @@
             }
         }
 
+        function togglePlaylistMenu() {
+            const modal = document.getElementById("playlistModal");
+            if (!modal) return;
+            if (modal.style.display === "flex") {
+                modal.style.display = "none";
+            } else {
+                modal.style.display = "flex";
+                renderSongList();
+            }
+        }
+
         function renderSongList() {
             const container = document.getElementById("songListContainer");
             if (!container) return;
             container.innerHTML = "";
-
-            playlist.forEach((song, index) => {
-                const btn = document.createElement("div");
-                btn.className = `song-item ${currentTrackIndex === index ? 'playing' : ''}`;
-                btn.innerHTML = `<span>${song.name}</span> ${currentTrackIndex === index ? '▶️' : ''}`;
-                btn.onclick = () => playSelectedSong(index);
-                container.appendChild(btn);
+            playlist.forEach((song, idx) => {
+                const item = document.createElement("div");
+                item.className = "song-item" + (idx === currentTrackIndex ? " playing" : "");
+                item.innerHTML = `<span>${song.name}</span> <span>${idx === currentTrackIndex ? "▶️" : "🎵"}</span>`;
+                item.onclick = () => {
+                    currentTrackIndex = idx;
+                    loadTrack(currentTrackIndex);
+                    bgMusic.play();
+                    musicBtn.textContent = "🔊 ปิดเพลง";
+                    renderSongList();
+                };
+                container.appendChild(item);
             });
         }
 
-        function playSelectedSong(index) {
-            currentTrackIndex = index;
-            loadTrack(currentTrackIndex);
-            bgMusic.play().then(() => {
-                musicBtn.textContent = "🔊 ปิดเพลง";
-            });
-            renderSongList();
-            togglePlaylistMenu();
-        }
-
-        function togglePlaylistMenu() {
-            const modal = document.getElementById("playlistModal");
-            if (modal) {
-                const isOpen = modal.style.display === "flex";
-                modal.style.display = isOpen ? "none" : "flex";
-                if (!isOpen) renderSongList();
-            }
-        }
-
-        // 💬 ระบบแชตลับ (รองรับข้อความ ตัวหนังสือ เสียง และรูปภาพ จัดเก็บใน localStorage)
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-
-        function loadChatMessages() {
-            const chatBox = document.getElementById("chatBox");
-            if (!chatBox) return;
-            chatBox.innerHTML = "";
-            
-            let messages = JSON.parse(localStorage.getItem("secretChatMessages")) || [
-                { sender: "received", type: "text", text: "สวัสดีน้าคนเก่ง ส่งรูปภาพ พิมพ์คุย หรืออัดเสียงตรงนี้ได้เลยนะ 💖" }
-            ];
-
-            messages.forEach((msg, idx) => {
-                const div = document.createElement("div");
-                div.className = `chat-message ${msg.sender}`;
-
-                if (msg.type === "image") {
-                    div.innerHTML = `<img src="${msg.url}" class="chat-img" alt="รูปภาพในแชต">`;
-                } else if (msg.type === "voice") {
-                    div.innerHTML = `
-                        <div class="voice-msg-player">
-                            <button class="play-voice-btn" onclick="playVoiceMessage(${idx})">▶️</button>
-                            <span class="voice-waves">🎙️ Voice Message (${msg.duration || '0:03'})</span>
-                        </div>
-                    `;
-                } else {
-                    div.textContent = msg.text;
-                }
-                chatBox.appendChild(div);
-            });
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function insertEmoji(emoji) {
-            const input = document.getElementById("chatInput");
-            input.value += emoji;
-            input.focus();
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById("chatInput");
-            const text = input.value.trim();
-            if (!text) return;
-
-            let messages = JSON.parse(localStorage.getItem("secretChatMessages")) || [];
-            messages.push({ sender: "sent", type: "text", text: text });
-            
-            const autoReplies = [
-                "งื้ออ น่ารักจังเลยยย ❤️",
-                "เค้ารักเธอนะคนเก่ง 🥰",
-                "รับทราบครับผม! จะจำไว้เสมอน้า 🐶",
-                "คิดถึงเหมือนกันแหละ ดูแลตัวเองด้วยนะ 💕",
-                "ส่งกอดแน่นๆ ไปให้แล้วนะ 🤗"
-            ];
-            const randomReply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
-            messages.push({ sender: "received", type: "text", text: randomReply });
-
-            localStorage.setItem("secretChatMessages", JSON.stringify(messages));
-            input.value = "";
-            loadChatMessages();
-        }
-
-        // 🖼️ ฟังก์ชันส่งรูปภาพในแชต
-        function sendImageMessage(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageUrl = e.target.result;
-                let messages = JSON.parse(localStorage.getItem("secretChatMessages")) || [];
-                
-                messages.push({ sender: "sent", type: "image", url: imageUrl });
-                messages.push({ sender: "received", type: "text", text: "โอโห้ รูปนี้น่ารักมากๆ เลยง่า เก็บเข้าคลังความทรงจำเรียบร้อย 🥰📸" });
-
-                localStorage.setItem("secretChatMessages", JSON.stringify(messages));
-                loadChatMessages();
-                event.target.value = ""; // รีเซ็ตค่า input file
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleChatKeyPress(event) {
-            if (event.key === "Enter") {
-                sendChatMessage();
-            }
-        }
-
-        // 🎙️ ระบบอัดเสียง
-        function toggleRecordVoice() {
-            const micBtn = document.getElementById("micBtn");
-            
-            if (!isRecording) {
-                isRecording = true;
-                micBtn.classList.add("recording");
-                micBtn.textContent = "⏹️";
-                
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                        mediaRecorder = new MediaRecorder(stream);
-                        audioChunks = [];
-                        mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
-                        mediaRecorder.onstop = () => {
-                            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-                            const audioUrl = URL.createObjectURL(audioBlob);
-                            saveVoiceMessage(audioUrl);
-                        };
-                        mediaRecorder.start();
-                    }).catch(err => {
-                        console.log("Mic access error:", err);
-                    });
-                }
-            } else {
-                isRecording = false;
-                micBtn.classList.remove("recording");
-                micBtn.textContent = "🎙️";
-
-                if (mediaRecorder && mediaRecorder.state !== "inactive") {
-                    mediaRecorder.stop();
-                } else {
-                    saveVoiceMessage(null);
-                }
-            }
-        }
-
-        function saveVoiceMessage(audioUrl) {
-            let messages = JSON.parse(localStorage.getItem("secretChatMessages")) || [];
-            messages.push({ sender: "sent", type: "voice", url: audioUrl, duration: "0:04" });
-            messages.push({ sender: "received", type: "voice", url: null, duration: "0:05" });
-
-            localStorage.setItem("secretChatMessages", JSON.stringify(messages));
-            loadChatMessages();
-        }
-
-        function playVoiceMessage(index) {
-            confetti({
-                particleCount: 20,
-                spread: 40,
-                origin: { y: 0.7 },
-                colors: ['#ff3b7b', '#ff6f9f']
-            });
-            alert("▶️ กำลังเล่นข้อความเสียง: 'คิดถึงเธอน้าคนเก่ง 💖'");
-        }
-
-        // 🔐 ตรวจสอบรหัสผ่านเซฟลับ
-        function checkPasscode() {
-            const input = document.getElementById("passcodeInput").value;
-            const errorText = document.getElementById("passcodeError");
-
-            if (input === "19072026") {
-                errorText.innerHTML = "";
-                confetti({
-                    particleCount: 100,
-                    spread: 80,
-                    origin: { y: 0.6 },
-                    colors: ['#ff3b7b', '#ff6f9f', '#fff2a8']
-                });
-                document.getElementById("passcodeInput").value = "";
-                nextPage(); 
-            } else {
-                errorText.innerHTML = "❌ รหัสผ่านไม่ถูกต้องจ้า ลองนึกดูดีๆ น้า 🥺";
-                const container = document.querySelector(".passcode-container");
-                container.style.transform = "translateX(10px)";
-                setTimeout(() => container.style.transform = "translateX(-10px)", 100);
-                setTimeout(() => container.style.transform = "translateX(0)", 200);
-            }
-        }
-
-        const loveQuotes = [
-            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
-            "ขอบคุณที่เข้ามาเป็นความสุขของเค้านะครับ 🥰",
-            "เหนื่อยไหมคนเก่ง มาให้เค้ากอดหน่อยเร็ว 🤗",
-            "รักเธอนะครับ ยิ้มเยอะๆ น้า 😊",
-            "ไม่ว่าจะเจออะไร เค้าอยู่ข้างๆ เธอเสมอนะ ❤️",
-            "วันนี้ก็น่ารักเหมือนเดิมเลยนะแฟนใครเนี่ย 🐶",
-            "เธอพิเศษสำหรับเค้ามากนะ❤️",
-            "เค้าจะไม่มีวันหมดรักที่รักนะ🥰",
-            "อยู่กับเค้าไปนานๆนะ❤️",
-            "สุดสวยของเค้า 💖"
-        ];
-
-        function getRandomQuote() {
-            const randomIndex = Math.floor(Math.random() * loveQuotes.length);
-            document.getElementById("quoteDisplay").innerText = loveQuotes[randomIndex];
-
-            confetti({
-                particleCount: 25,
-                spread: 50,
-                origin: { y: 0.6 },
-                shapes: ['circle'],
-                colors: ['#ff3b7b', '#ff6f9f', '#ffb3ca']
-            });
-        }
-
-        let slideIndex = 0;
-        let sliderInterval = null;
-
-        function startImageSlider() {
-            if (sliderInterval) clearInterval(sliderInterval);
-            const slides = document.querySelectorAll(".slide-img");
-            if (slides.length === 0) return;
-
-            sliderInterval = setInterval(() => {
-                slides[slideIndex].classList.remove("active");
-                slideIndex = (slideIndex + 1) % slides.length;
-                slides[slideIndex].classList.add("active");
-            }, 3000);
-        }
-
-        const startDate = new Date(2026, 6, 19, 0, 0, 0); 
-
-        function updateTimer() {
-            const now = new Date();
-            const diffTime = Math.abs(now - startDate);
-
-            const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diffTime / (1000 * 60)) % 60);
-            const seconds = Math.floor((diffTime / 1000) % 60);
-
-            document.getElementById("d").textContent = days;
-            document.getElementById("h").textContent = hours.toString().padStart(2, '0');
-            document.getElementById("m").textContent = minutes.toString().padStart(2, '0');
-            document.getElementById("s").textContent = seconds.toString().padStart(2, '0');
-        }
-
-        setInterval(updateTimer, 1000);
-        updateTimer();
-
-        function flipPolaroid(container) {
-            const card = container.querySelector('.polaroid-card');
-            card.classList.toggle('flipped');
-        }
-
-        function triggerEmergencyHug() {
-            confetti({
-                particleCount: 120,
-                spread: 100,
-                origin: { y: 0.5 },
-                colors: ['#ff3b7b', '#ff6f9f', '#ffffff']
-            });
-            alert("💖 เติมพลังกอด 100%! ไม่ว่าจะเหนื่อยแค่ไหน เค้าอยู่ข้างๆ เธอเสมอนะครับคนเก่ง สู้ๆ นะ! 🐶✨");
-        }
-
-        function sendLineHug() {
-            window.open("https://line.me/ti/p/18qT2zVpNT", '_blank');
-        }
-
-        const fullMessage = `ยินดีด้วยนะคนเก่ง ที่ไขเซฟลับนี้สำเร็จ! 🔐💖\n\nเค้าตั้งใจทำเว็บนี้ขึ้นมาเพื่อเก็บรวบรวมความทรงจำของเราโดยเฉพาะเลยนะ ขอบคุณที่เข้ามาเป็นรอยยิ้ม เป็นกำลังใจ และทำให้ทุกๆ วันของเค้ามีความหมายมากๆ ขนาดนี้\n\nไม่ว่าวันข้างหน้าจะเจอเรื่องเหนื่อยหรือเรื่องยากแค่ไหน จำไว้นะว่ามีเค้าคนนี้คอยยืนอยู่ข้างๆ และพร้อมโอบกอดเธอเสมอ รักที่รักที่สุดในโลกเลยนะ ❤️✨`;
-        let typeIndex = 0;
-        let isTyping = false;
-
-        function startTypingEffect() {
-            const element = document.getElementById("typeWriterMessage");
-            element.innerHTML = "";
-            typeIndex = 0;
-            isTyping = true;
-
-            function type() {
-                if (typeIndex < fullMessage.length) {
-                    element.innerHTML += fullMessage.charAt(typeIndex) === '\n' ? '<br>' : fullMessage.charAt(typeIndex);
-                    typeIndex++;
-                    setTimeout(type, 50);
-                } else {
-                    isTyping = false;
-                }
-            }
-            type();
-        }
-
+        // หน้าเว็บ
         function showPage(index) {
-            if (index < 0 || index >= pages.length) return;
-            pages.forEach((page, i) => page.classList.toggle("active", i === index));
+            pages.forEach((p, i) => {
+                p.classList.toggle("active", i === index);
+            });
             currentPage = index;
             window.scrollTo(0, 0);
+        }
 
-            if (index === 1) {
-                startImageSlider();
-            } else if (index === 4) {
-                loadChatMessages(); 
-            } else if (index === 6 && !isTyping) { 
-                startTypingEffect();
+        function nextPage() {
+            if (currentPage < pages.length - 1) {
+                showPage(currentPage + 1);
             }
         }
 
-        function nextPage() { showPage(Math.min(currentPage + 1, pages.length - 1)); }
-        function prevPage() { showPage(Math.max(currentPage - 1, 0)); }
-        function goFirst() { showPage(0); }
+        function prevPage() {
+            if (currentPage > 0) {
+                showPage(currentPage - 1);
+            }
+        }
 
+        function goFirst() {
+            showPage(0);
+        }
+
+        // QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: window.location.href,
+            width: 150,
+            height: 150,
+            colorDark: "#ff3b7b",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        document.getElementById("qrClickArea").addEventListener("click", () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(e => {});
+                musicBtn.textContent = "🔊 ปิดเพลง";
+            }
+            nextPage();
+        });
+
+        // สุ่มข้อความ
+        const quotes = [
+            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
+            "เธอคือรอยยิ้มของเค้าในทุกๆ วัน 🥰",
+            "ขอบคุณที่เข้ามาเติมเต็มความสุขให้นะคะ/ครับ ✨",
+            "ไม่ว่าจะเจออะไร เค้าจะอยู่ข้างๆ เสมอ 🤝💖",
+            "เธอเป็นคนน่ารักที่สุดในโลกเลยรู้ไหม 🌍💓"
+        ];
+        function getRandomQuote() {
+            const display = document.getElementById("quoteDisplay");
+            const random = quotes[Math.floor(Math.random() * quotes.length)];
+            display.textContent = `"${random}"`;
+        }
+
+        // เปิดกล่องของขวัญ
         function openGift() {
             const gift = document.getElementById("gift");
-            if (gift) gift.style.transform = "scale(1.06) rotate(2deg)";
-            
+            gift.style.transform = "scale(1.15) rotate(5deg)";
             confetti({
                 particleCount: 100,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff6f9f', '#ffb3ca', '#fff2a8', '#ff3b7b']
+                colors: ['#ff3b7b', '#ff6f9f', '#fff2a8', '#ffb3ca']
             });
+            setTimeout(() => {
+                gift.style.transform = "scale(1)";
+            }, 300);
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            if (document.getElementById("qrcode")) {
-                new QRCode(document.getElementById("qrcode"), {
-                    text: window.location.href,
-                    width: 150,
-                    height: 150,
-                    colorDark: "#ff3b7b",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
+        // รหัสผ่านเซฟลับ
+        function checkPasscode() {
+            const input = document.getElementById("passcodeInput").value.trim();
+            const errorDiv = document.getElementById("passcodeError");
+            const correctPass = "19122023"; 
+
+            if (input === correctPass) {
+                errorDiv.textContent = "";
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+                nextPage();
+            } else {
+                errorDiv.textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองนึกถึงวันสำคัญของเราดูน้า 🥺";
+            }
+        }
+
+        // Polaroid Flip
+        function flipPolaroid(el) {
+            const card = el.querySelector(".polaroid-card");
+            card.classList.toggle("flipped");
+        }
+
+        // ตัวนับเวลา
+        const startDate = new Date("2024-01-19T00:00:00");
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                const dEl = document.getElementById("d");
+                const hEl = document.getElementById("h");
+                const mEl = document.getElementById("m");
+                const sEl = document.getElementById("s");
+
+                if (dEl) dEl.textContent = days;
+                if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+                if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+                if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // พิมพ์จดหมายทีละตัว
+        const letterText = "ถึง คนเก่งของเค้า,\n\nขอบคุณนะคะ/ครับที่เดินทางร่วมกันมาจนถึงวันนี้ ทุกช่วงเวลาที่มีเธอคือความสุขที่สุดในชีวิตของเค้าเลย ขอบคุณที่คอยดูแล เป็นกำลังใจ และสร้างเสียงหัวเราะให้กันเสมอ...\n\nรักเธอที่สุดในโลกเลยนะ 💖";
+        let charIndex = 0;
+        function typeWriter() {
+            const container = document.getElementById("typeWriterMessage");
+            if (container && charIndex < letterText.length) {
+                container.textContent += letterText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 40);
+            }
+        }
+        setTimeout(typeWriter, 1000);
+
+        // ระบบแชต & อัดเสียง
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const recordBtn = document.getElementById('recordBtn');
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        function sendTextMessage() {
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            appendChatMessage(text, 'user');
+            messageInput.value = '';
+
+            setTimeout(() => {
+                appendChatMessage("ได้รับข้อความความหวานแล้วจ้า: " + text, 'bot');
+            }, 600);
+        }
+
+        function appendChatMessage(content, sender, type = 'text') {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-bubble', sender);
+
+            if (type === 'audio') {
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.src = content;
+                messageDiv.appendChild(audioElement);
+            } else {
+                messageDiv.textContent = content;
             }
 
-            checkAnniversaryDay();
-            loadChatMessages();
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-            const qrClickArea = document.getElementById("qrClickArea");
-            if (qrClickArea) {
-                qrClickArea.addEventListener("click", () => {
-                    if (bgMusic.paused) {
-                        bgMusic.play().then(() => {
-                            musicBtn.textContent = "🔊 ปิดเพลง";
-                        }).catch(e => {
-                            console.log("Autoplay blocked");
-                        });
-                    }
-                    nextPage();
-                });
+        sendBtn.addEventListener('click', sendTextMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendTextMessage();
+        });
+
+        recordBtn.addEventListener('click', async () => {
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        appendChatMessage(audioUrl, 'user', 'audio');
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordBtn.classList.add('recording');
+                    recordBtn.textContent = '⏹️';
+                } catch (err) {
+                    alert('ไม่สามารถเข้าถึงไมโครโฟนได้ กรุณาตรวจสอบการอนุญาตใช้งานไมโครโฟน');
+                }
+            } else {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordBtn.classList.remove('recording');
+                recordBtn.textContent = '🎙️';
             }
         });
+
+        // ปุ่มฉุกเฉิน
+        function triggerEmergencyHug() {
+            confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 } });
+            alert("🤗 ส่งกอดแน่นๆ และพลังบวกจากเค้าไปหาเธอแล้วนะ หายเหนื่อยแล้วยิ้มกว้างๆ น้าคนเก่ง 💖");
+        }
+
+        // ส่ง LINE
+        function sendLineHug() {
+            const text = encodeURIComponent("คิดถึงจังเลย ส่งกอดแน่นๆ มาให้หน่อย 🤗💖");
+            window.open(`https://line.me/R/msg/text/?${text}`, '_blank');
+        }
+
+        // ตรวจสอบวันครบรอบเมื่อโหลดหน้าเว็บ
+        window.onload = function() {
+            checkAnniversaryDay();
+        };
     </script>
 </body>
 </html>
