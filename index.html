@@ -522,119 +522,6 @@
             font-size: 15px;
             margin-top: 5px;
         }
-
-        /* ---------------- 💬 สไตล์แชตและบันทึกเสียง ---------------- */
-        .chat-container-wrapper {
-            width: 100%;
-            height: 420px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            margin: 15px 0;
-            text-align: left;
-            border: 2px solid #ffb3ca;
-        }
-        .chat-header-custom {
-            background: #ff6f9f;
-            color: white;
-            padding: 12px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        .chat-messages {
-            flex: 1;
-            padding: 12px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: #fdf2f7;
-        }
-        .message-bubble {
-            max-width: 75%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 14px;
-            line-height: 1.4;
-            word-break: break-word;
-        }
-        .message-bubble.user {
-            background: #ff6f9f;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        .message-bubble.bot {
-            background: #e4e6eb;
-            color: #050505;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        .chat-input-area {
-            padding: 10px;
-            background: #fff;
-            border-top: 1px solid #ffd1e0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .chat-input-area input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ffb3ca;
-            border-radius: 20px;
-            outline: none;
-            font-family: 'Kanit', sans-serif;
-            font-size: 14px;
-        }
-        .chat-btn {
-            background: #ff6f9f;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Kanit', sans-serif;
-            font-size: 14px;
-            transition: background 0.2s;
-            margin-top: 0;
-            box-shadow: none;
-        }
-        .chat-btn:hover {
-            background: #ff5d92;
-            transform: none;
-        }
-        .btn-record {
-            background: #ffe6f0;
-            color: #ff3b7b;
-            border-radius: 50%;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            font-size: 16px;
-            border: 1px solid #ffb3ca;
-        }
-        .btn-record.recording {
-            background: #ff3b30;
-            color: white;
-            animation: pulse 1.2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        .message-bubble audio {
-            max-width: 180px;
-            height: 32px;
-        }
     </style>
 </head>
 
@@ -747,7 +634,7 @@
         </div>
     </section>
 
-    <!-- หน้า 6 : การ์ดจดหมาย & นับเวลา & ห้องแชตคู่รัก -->
+    <!-- หน้า 6 : การ์ดจดหมาย & นับเวลา -->
     <section class="page">
         <div class="content">
             <div class="card">
@@ -792,19 +679,6 @@
 
                 <!-- ข้อความพิมพ์ทีละตัว -->
                 <div class="message" id="typeWriterMessage"></div>
-
-                <!-- 💬 ห้องแชต & บันทึกเสียงคู่รัก -->
-                <div class="chat-container-wrapper">
-                    <div class="chat-header-custom">💬 ห้องแชตบอกรัก & อัดเสียงความในใจ</div>
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message-bubble bot">สวัสดีค่ะ/ครับคนเก่ง! พิมพ์ข้อความหาเค้า หรือกดอัดเสียงส่งความหวานหากันได้เลยนะ 🎙️💖</div>
-                    </div>
-                    <div class="chat-input-area">
-                        <button class="chat-btn btn-record" id="recordBtn" title="อัดเสียง">🎙️</button>
-                        <input type="text" id="messageInput" placeholder="พิมพ์ข้อความ..." autocomplete="off">
-                        <button class="chat-btn" id="sendBtn">ส่ง</button>
-                    </div>
-                </div>
 
                 <!-- 🎯 ปุ่มฉุกเฉินถ้าเหนื่อย/คิดถึง -->
                 <button class="emergency-btn" onclick="triggerEmergencyHug()">
@@ -1010,7 +884,7 @@
             }, 300);
         }
 
-        // รหัสผ่านเซฟลับ (ตั้งเป็น 19072026 แล้วครับ)
+        // รหัสผ่านเซฟลับ
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
             const errorDiv = document.getElementById("passcodeError");
@@ -1031,7 +905,7 @@
             card.classList.toggle("flipped");
         }
 
-        // ตัวนับเวลา (แก้ไขวันเริ่มต้นเป็น 19 กรกฎาคม 2026)
+        // ตัวนับเวลา (เริ่มนับตั้งแต่วันที่ 19 กรกฎาคม 2026)
         const startDate = new Date("2026-07-19T00:00:00");
         function updateTimer() {
             const now = new Date();
@@ -1068,82 +942,6 @@
             }
         }
         setTimeout(typeWriter, 1000);
-
-        // ระบบแชต & อัดเสียง
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const recordBtn = document.getElementById('recordBtn');
-
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-
-        function sendTextMessage() {
-            const text = messageInput.value.trim();
-            if (!text) return;
-
-            appendChatMessage(text, 'user');
-            messageInput.value = '';
-
-            setTimeout(() => {
-                appendChatMessage("ได้รับข้อความความหวานแล้วจ้า: " + text, 'bot');
-            }, 600);
-        }
-
-        function appendChatMessage(content, sender, type = 'text') {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message-bubble', sender);
-
-            if (type === 'audio') {
-                const audioElement = document.createElement('audio');
-                audioElement.controls = true;
-                audioElement.src = content;
-                messageDiv.appendChild(audioElement);
-            } else {
-                messageDiv.textContent = content;
-            }
-
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        sendBtn.addEventListener('click', sendTextMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendTextMessage();
-        });
-
-        recordBtn.addEventListener('click', async () => {
-            if (!isRecording) {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    audioChunks = [];
-
-                    mediaRecorder.ondataavailable = event => {
-                        audioChunks.push(event.data);
-                    };
-
-                    mediaRecorder.onstop = () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                        const audioUrl = URL.createObjectURL(audioBlob);
-                        appendChatMessage(audioUrl, 'user', 'audio');
-                    };
-
-                    mediaRecorder.start();
-                    isRecording = true;
-                    recordBtn.classList.add('recording');
-                    recordBtn.textContent = '⏹️';
-                } catch (err) {
-                    alert('ไม่สามารถเข้าถึงไมโครโฟนได้ กรุณาตรวจสอบการอนุญาตใช้งานไมโครโฟน');
-                }
-            } else {
-                mediaRecorder.stop();
-                isRecording = false;
-                recordBtn.classList.remove('recording');
-                recordBtn.textContent = '🎙️';
-            }
-        });
 
         // ปุ่มฉุกเฉิน
         function triggerEmergencyHug() {
