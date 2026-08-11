@@ -1010,18 +1010,18 @@
             }, 300);
         }
 
-        // รหัสผ่านเซฟลับ
+        // รหัสผ่านเซฟลับ (อัปเดตแก้เป็น 19072026 ตามที่แจ้งครับ)
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
             const errorDiv = document.getElementById("passcodeError");
-            const correctPass = "19122023"; 
+            const correctPass = "19072026"; 
 
             if (input === correctPass) {
                 errorDiv.textContent = "";
                 confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
                 nextPage();
             } else {
-                errorDiv.textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองนึกถึงวันสำคัญของเราดูน้า 🥺";
+                errorDiv.textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกทีนะคนเก่ง 🥺";
             }
         }
 
