@@ -1010,7 +1010,7 @@
             }, 300);
         }
 
-        // รหัสผ่านเซฟลับ (อัปเดตแก้เป็น 19072026 ตามที่แจ้งครับ)
+        // รหัสผ่านเซฟลับ (ตั้งเป็น 19072026 แล้วครับ)
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
             const errorDiv = document.getElementById("passcodeError");
@@ -1031,8 +1031,8 @@
             card.classList.toggle("flipped");
         }
 
-        // ตัวนับเวลา
-        const startDate = new Date("2024-01-19T00:00:00");
+        // ตัวนับเวลา (แก้ไขวันเริ่มต้นเป็น 19 กรกฎาคม 2026)
+        const startDate = new Date("2026-07-19T00:00:00");
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
