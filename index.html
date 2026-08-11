@@ -707,7 +707,7 @@
             { file: "song2.mp3", name: "🎵 เพลงที่ 2: วันสำคัญ" },
             { file: "song3.mp3", name: "🎵 เพลงที่ 3: ความทรงจำ" },
             { file: "song4.mp3", name: "🎵 เพลงที่ 4: เธอกับฉัน" },
-            { file: "song5.mp3", name: "🎵 เพลงที่ 5: สมดุลรัก" }, // <--- เติมคอมม่าตรงนี้เรียบร้อย
+            { file: "song5.mp3", name: "🎵 เพลงที่ 5: สมดุลรัก" },
             { file: "song6.mp3", name: "🎵 เพลงที่ 6: ตกหลุดรักรอบที่ล้าน" },
             { file: "song7.mp3", name: "🎵 เพลงที่ 7: รักเเรกพบ" },
             { file: "song8.mp3", name: "🎵 เพลงที่ 8: รักเเท้" },
@@ -977,7 +977,7 @@
             });
         }
 
-        // 📌 สร้าง QR Code อัตโนมัติและตั้งค่าให้คลิกเปลี่ยนหน้าได้เมื่อโหลดเว็บเสร็จ
+        // 📌 สร้าง QR Code และคลิกเพื่อเริ่มเล่นเพลง + เปลี่ยนหน้า
         document.addEventListener("DOMContentLoaded", () => {
             if (document.getElementById("qrcode")) {
                 new QRCode(document.getElementById("qrcode"), {
@@ -995,6 +995,16 @@
             const qrClickArea = document.getElementById("qrClickArea");
             if (qrClickArea) {
                 qrClickArea.addEventListener("click", () => {
+                    // 👉 สั่งเล่นเพลงเมื่อมีการคลิกครั้งแรก (แก้ปัญหาบราวเซอร์บล็อก)
+                    if (bgMusic.paused) {
+                        bgMusic.play().then(() => {
+                            musicBtn.textContent = "🔊 ปิดเพลง";
+                        }).catch(e => {
+                            console.log("Autoplay blocked");
+                        });
+                    }
+                    
+                    // เปลี่ยนไปหน้าถัดไป
                     nextPage();
                 });
             }
