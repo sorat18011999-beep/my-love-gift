@@ -763,41 +763,26 @@
             nextPage();
         });
 
-        // 📷 ฟังก์ชันอัปโหลดรูปภาพใส่ Slider + Gallery
+        // 📷 ระบบอัปโหลดรูปภาพถาวรด้วย localStorage
         function handleImageUpload(event) {
             const files = event.target.files;
-            const container = document.getElementById("sliderContainer");
-            const gallery = document.getElementById("uploadedGallery");
 
             Array.from(files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imgSrc = e.target.result;
 
-                    // เพิ่มเข้า Slider
-                    const newImg = document.createElement("img");
-                    newImg.src = imgSrc;
-                    newImg.className = "slide-img";
-                    container.appendChild(newImg);
+                    // 1. แสดงผลรูปภาพบนหน้าเว็บ
+                    appendImageToGallery(imgSrc);
 
-                    // เพิ่มลง Gallery ด้านล่าง
-                    const thumbBox = document.createElement("div");
-                    thumbBox.className = "thumb-box";
-                    
-                    const thumbImg = document.createElement("img");
-                    thumbImg.src = imgSrc;
-                    
-                    const delBtn = document.createElement("div");
-                    delBtn.className = "delete-btn";
-                    delBtn.innerHTML = "×";
-                    delBtn.onclick = function() {
-                        thumbBox.remove();
-                        newImg.remove();
-                    };
-
-                    thumbBox.appendChild(thumbImg);
-                    thumbBox.appendChild(delBtn);
-                    gallery.appendChild(thumbBox);
+                    // 2. บันทึกลง localStorage (บันทึกถาวร)
+                    let savedImages = JSON.parse(localStorage.getItem("userUploadedImages") || "[]");
+                    savedImages.push(imgSrc);
+                    try {
+                        localStorage.setItem("userUploadedImages", JSON.stringify(savedImages));
+                    } catch (err) {
+                        console.warn("พื้นที่ความจำเบราว์เซอร์เต็ม ไม่สามารถบันทึกเพิ่มได้");
+                    }
 
                     confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
                 };
@@ -805,18 +790,71 @@
             });
         }
 
-        // 📷 เปลี่ยนรูป Polaroid ในหน้า 6
+        // ฟังก์ชันสร้าง Element สำหรับรูปภาพ
+        function appendImageToGallery(imgSrc) {
+            const container = document.getElementById("sliderContainer");
+            const gallery = document.getElementById("uploadedGallery");
+
+            // เพิ่มเข้า Slider
+            const newImg = document.createElement("img");
+            newImg.src = imgSrc;
+            newImg.className = "slide-img";
+            container.appendChild(newImg);
+
+            // เพิ่มลง Gallery
+            const thumbBox = document.createElement("div");
+            thumbBox.className = "thumb-box";
+            
+            const thumbImg = document.createElement("img");
+            thumbImg.src = imgSrc;
+            
+            const delBtn = document.createElement("div");
+            delBtn.className = "delete-btn";
+            delBtn.innerHTML = "×";
+            delBtn.onclick = function() {
+                thumbBox.remove();
+                newImg.remove();
+                
+                // ลบออกจาก localStorage
+                let savedImages = JSON.parse(localStorage.getItem("userUploadedImages") || "[]");
+                savedImages = savedImages.filter(img => img !== imgSrc);
+                localStorage.setItem("userUploadedImages", JSON.stringify(savedImages));
+            };
+
+            thumbBox.appendChild(thumbImg);
+            thumbBox.appendChild(delBtn);
+            gallery.appendChild(thumbBox);
+        }
+
+        // 📷 เปลี่ยนและบันทึกรูป Polaroid ถาวร
         function changePolaroidImage(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById("polaroidImg").src = e.target.result;
+                    const imgSrc = e.target.result;
+                    document.getElementById("polaroidImg").src = imgSrc;
+                    localStorage.setItem("savedPolaroidImg", imgSrc);
                     confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
                 };
                 reader.readAsDataURL(file);
             }
         }
+
+        // โหลดรูปภาพที่เคยบันทึกไว้ออกมาแสดงเมื่อเปิดเว็บ
+        window.addEventListener("DOMContentLoaded", () => {
+            // โหลดรูปใน Gallery
+            let savedImages = JSON.parse(localStorage.getItem("userUploadedImages") || "[]");
+            savedImages.forEach(imgSrc => {
+                appendImageToGallery(imgSrc);
+            });
+
+            // โหลดรูป Polaroid
+            let savedPolaroid = localStorage.getItem("savedPolaroidImg");
+            if (savedPolaroid) {
+                document.getElementById("polaroidImg").src = savedPolaroid;
+            }
+        });
 
         const quotes = [
             "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
