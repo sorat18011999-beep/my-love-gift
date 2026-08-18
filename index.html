@@ -26,6 +26,23 @@
             background: linear-gradient(135deg, #ffd6e7, #fff0f6);
             overflow-x: hidden;
             color: #555;
+            position: relative;
+        }
+
+        /* 🎈 เอฟเฟกต์หัวใจลอย 배경 */
+        .heart-particle {
+            position: fixed;
+            bottom: -10px;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp 4s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.3); opacity: 0; }
         }
 
         .page {
@@ -38,6 +55,8 @@
             text-align: center;
             padding: 25px;
             animation: fadeIn .6s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .page.active {
@@ -604,7 +623,7 @@
     <section class="page">
         <div class="content">
             <h2>Gift for U 💗</h2>
-            <div class="gift" id="gift" onclick="openGift()">
+            <div class="gift" id="gift" onclick="handleGiftClick()">
                 <div class="bow-left"></div>
                 <div class="bow-right"></div>
                 <div class="lid"></div>
@@ -612,7 +631,7 @@
                 <div class="ribbon"></div>
                 <div class="ribbon-horizontal"></div>
             </div>
-            <button onclick="openGift(); setTimeout(nextPage, 800);">Open It 🎁</button>
+            <button onclick="handleGiftClick()">Open It 🎁</button>
             <button class="back-page" onclick="prevPage()">◀️ ย้อนกลับ</button>
         </div>
     </section>
@@ -819,6 +838,11 @@
             });
             currentPage = index;
             window.scrollTo(0, 0);
+
+            // Trigger Typewriter เฉพาะเมื่อถึงหน้าสุดท้าย
+            if (index === 5 && charIndex === 0) {
+                typeWriter();
+            }
         }
 
         function nextPage() {
@@ -849,8 +873,9 @@
 
         document.getElementById("qrClickArea").addEventListener("click", () => {
             if (bgMusic.paused) {
-                bgMusic.play().catch(e => {});
-                musicBtn.textContent = "🔊 ปิดเพลง";
+                bgMusic.play().then(() => {
+                    musicBtn.textContent = "🔊 ปิดเพลง";
+                }).catch(e => {});
             }
             nextPage();
         });
@@ -884,6 +909,11 @@
             }, 300);
         }
 
+        function handleGiftClick() {
+            openGift();
+            setTimeout(nextPage, 800);
+        }
+
         // รหัสผ่านเซฟลับ
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
@@ -910,21 +940,27 @@
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
+            
+            const dEl = document.getElementById("d");
+            const hEl = document.getElementById("h");
+            const mEl = document.getElementById("m");
+            const sEl = document.getElementById("s");
+
             if (diff > 0) {
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
                 const minutes = Math.floor((diff / (1000 * 60)) % 60);
                 const seconds = Math.floor((diff / 1000) % 60);
 
-                const dEl = document.getElementById("d");
-                const hEl = document.getElementById("h");
-                const mEl = document.getElementById("m");
-                const sEl = document.getElementById("s");
-
                 if (dEl) dEl.textContent = days;
                 if (hEl) hEl.textContent = String(hours).padStart(2, '0');
                 if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
                 if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+            } else {
+                if (dEl) dEl.textContent = 0;
+                if (hEl) hEl.textContent = "00";
+                if (mEl) mEl.textContent = "00";
+                if (sEl) sEl.textContent = "00";
             }
         }
         setInterval(updateTimer, 1000);
@@ -941,7 +977,6 @@
                 setTimeout(typeWriter, 40);
             }
         }
-        setTimeout(typeWriter, 1000);
 
         // ปุ่มฉุกเฉิน
         function triggerEmergencyHug() {
@@ -954,6 +989,30 @@
             const text = encodeURIComponent("คิดถึงจังเลย ส่งกอดแน่นๆ มาให้หน่อย 🤗💖");
             window.open(`https://line.me/R/msg/text/?${text}`, '_blank');
         }
+
+        // 🖼️ ระบบ Auto Slideshow สำหรับรูปภาพในหน้า 2
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".slide-img");
+        function autoSlide() {
+            if (slides.length > 0) {
+                slides[currentSlide].classList.remove("active");
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add("active");
+            }
+        }
+        setInterval(autoSlide, 3000);
+
+        // 🎈 เอฟเฟกต์สร้างหัวใจลอยเบื้องหลัง
+        function createFloatingHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart-particle";
+            heart.innerHTML = ["💖", "💗", "🌸", "✨"][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createFloatingHeart, 800);
 
         // ตรวจสอบวันครบรอบเมื่อโหลดหน้าเว็บ
         window.onload = function() {
