@@ -12,9 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -29,7 +27,6 @@
             position: relative;
         }
 
-        /* 🎈 เอฟเฟกต์หัวใจลอย 배경 */
         .heart-particle {
             position: fixed;
             bottom: -10px;
@@ -59,36 +56,30 @@
             z-index: 1;
         }
 
-        .page.active {
-            display: flex;
-        }
+        .page.active { display: flex; }
+        .content { width: 100%; }
 
-        .content {
-            width: 100%;
-        }
+        h1 { color: #ff6f9f; margin: 15px 0; }
+        h2 { color: #ff82aa; }
 
-        /* ---------------- Header & Button ---------------- */
-        h1 {
-            color: #ff6f9f;
-            margin: 15px 0;
-        }
-
-        h2 {
-            color: #ff82aa;
-        }
-
-        button {
+        button, .upload-btn {
             border: none;
             background: #ff78a5;
             color: white;
-            padding: 13px 28px;
+            padding: 12px 24px;
             border-radius: 30px;
-            font-size: 17px;
+            font-size: 16px;
             cursor: pointer;
-            margin-top: 12px;
+            margin-top: 10px;
             font-family: 'Kanit', sans-serif;
             box-shadow: 0 5px 15px rgba(255, 100, 150, .3);
             transition: .2s;
+            display: inline-block;
+        }
+
+        button:hover, .upload-btn:hover {
+            transform: scale(1.05);
+            background: #ff5d92;
         }
 
         .back-page {
@@ -98,17 +89,12 @@
             margin-left: 8px;
         }
 
-        .back-page:hover {
-            background: #fff3f7;
-            transform: scale(1.03);
-        }
+        .back-page:hover { background: #fff3f7; }
 
-        button:hover {
-            transform: scale(1.05);
-            background: #ff5d92;
-        }
+        /* Hidden File Input */
+        input[type="file"] { display: none; }
 
-        /* ---------------- Slider 🖼️ ---------------- */
+        /* Slider */
         .slider-container {
             width: 220px;
             height: 250px;
@@ -131,11 +117,50 @@
             transition: opacity 1s ease-in-out;
         }
 
-        .slide-img.active {
-            opacity: 1;
+        .slide-img.active { opacity: 1; }
+
+        /* Gallery Grid สำหรับรูปที่เพิ่มใหม่ */
+        .uploaded-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            max-height: 160px;
+            overflow-y: auto;
+            padding: 5px;
         }
 
-        /* ---------------- Quote Box 💬 ---------------- */
+        .thumb-box {
+            position: relative;
+            width: 65px;
+            height: 65px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .thumb-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(255,0,0,0.75);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            line-height: 18px;
+            text-align: center;
+            cursor: pointer;
+        }
+
         .quote-box {
             background: #fff0f6;
             border: 2px dashed #ff82aa;
@@ -151,7 +176,6 @@
             justify-content: center;
         }
 
-        /* ---------------- กล่องของขวัญ ---------------- */
         .gift {
             position: relative;
             width: 220px;
@@ -203,8 +227,7 @@
             z-index: 4;
         }
 
-        .bow-left,
-        .bow-right {
+        .bow-left, .bow-right {
             position: absolute;
             top: 0;
             width: 65px;
@@ -217,7 +240,6 @@
         .bow-left { left: 45px; transform: rotate(25deg); }
         .bow-right { right: 45px; transform: rotate(-25deg); }
 
-        /* ---------------- Card ---------------- */
         .card {
             background: rgba(255,255,255,.9);
             border-radius: 25px;
@@ -226,7 +248,6 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.12);
         }
 
-        /* 🔐 หน้าล็อกรหัสผ่านเซฟลับ */
         .passcode-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 25px;
@@ -251,11 +272,6 @@
             font-family: 'Kanit', sans-serif;
         }
 
-        .passcode-input:focus {
-            border-color: #ff6f9f;
-            box-shadow: 0 0 10px rgba(255, 111, 159, 0.3);
-        }
-
         .passcode-error {
             color: #ff3b7b;
             font-size: 14px;
@@ -264,11 +280,10 @@
             min-height: 20px;
         }
 
-        /* 📸 รูปสไตล์ Polaroid พลิกได้ (3D Flip) */
         .polaroid-container {
             width: 210px;
             height: 250px;
-            margin: 15px auto 20px;
+            margin: 15px auto 10px;
             perspective: 1000px;
             cursor: pointer;
         }
@@ -285,9 +300,7 @@
             padding: 12px 12px 35px 12px;
         }
 
-        .polaroid-card.flipped {
-            transform: rotateY(180deg);
-        }
+        .polaroid-card.flipped { transform: rotateY(180deg); }
 
         .polaroid-front, .polaroid-back {
             position: absolute;
@@ -329,7 +342,6 @@
             font-weight: bold;
         }
 
-        /* ⏳ กล่องนับเวลาแบบ Real-time */
         .counter-box {
             background: #ffe6f0;
             padding: 15px;
@@ -383,7 +395,6 @@
             margin-bottom: 15px;
         }
 
-        /* 🎯 ปุ่มฉุกเฉิน */
         .emergency-btn {
             background: linear-gradient(135deg, #ff6f9f, #ff3b7b);
             font-size: 15px;
@@ -394,7 +405,6 @@
             box-shadow: 0 4px 15px rgba(255, 59, 123, 0.3);
         }
 
-        /* 💌 ปุ่มส่งกอดเข้า LINE */
         .line-btn {
             background: #06C755;
             font-size: 15px;
@@ -405,7 +415,6 @@
             box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
         }
 
-        /* ---------------- QR ---------------- */
         .qr-box {
             margin-top: 25px;
             background: white;
@@ -416,29 +425,15 @@
             cursor: pointer;
         }
 
-        #qrcode {
-            display: flex;
-            justify-content: center;
-        }
-
-        .qr-text {
-            margin-top: 15px;
-            color: #ff6f9f;
-            font-weight: bold;
-        }
-
-        .small {
-            font-size: 13px;
-            color: #999;
-            margin-top: 8px;
-        }
+        #qrcode { display: flex; justify-content: center; }
+        .qr-text { margin-top: 15px; color: #ff6f9f; font-weight: bold; }
+        .small { font-size: 13px; color: #999; margin-top: 8px; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 🎵 ปุ่มควบคุมเพลงมุมล่างขวา */
         .music-control {
             position: fixed;
             right: 15px;
@@ -454,8 +449,7 @@
             background: #ff82aa !important;
         }
 
-        /* 🎁 ป๊อปอัปฉลองวันที่ 19 */
-        .anniversary-modal, .playlist-modal {
+        .playlist-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -468,9 +462,9 @@
             z-index: 10000;
         }
 
-        .anniversary-content, .playlist-content {
+        .playlist-content {
             background: #fff;
-            padding: 30px 20px;
+            padding: 25px 20px;
             border-radius: 25px;
             width: 85%;
             max-width: 350px;
@@ -479,33 +473,13 @@
             border: 3px dashed #ff82aa;
         }
 
-        .anniversary-content h2, .playlist-content h3 {
-            color: #ff3b7b;
-            margin-bottom: 10px;
-        }
+        .playlist-content h3 { color: #ff3b7b; margin-bottom: 10px; margin-top: 0; }
 
-        .anniversary-content p {
-            color: #555;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .anniversary-content button {
-            background: #ff6f9f;
-            width: 100%;
-            padding: 10px;
-            border-radius: 20px;
-            color: white;
-            font-size: 16px;
-        }
-
-        /* 📜 รายชื่อเพลงในป๊อปอัป */
         .song-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 220px;
+            max-height: 250px;
             overflow-y: auto;
             margin-bottom: 15px;
             padding-right: 5px;
@@ -546,29 +520,16 @@
 
 <body>
 
-    <!-- 🎵 ไฟล์เพลง -->
     <audio id="bgMusic" preload="auto"></audio>
     <button id="playlistMenuBtn" class="music-control playlist-btn" onclick="togglePlaylistMenu()">🎶 เลือกเพลง</button>
     <button id="musicBtn" class="music-control" onclick="toggleMusic()">🎵 เปิดเพลง</button>
 
-    <!-- 📜 เมนูเลือกเพลง Modal -->
     <div id="playlistModal" class="playlist-modal">
         <div class="playlist-content">
             <h3>🎵 เลือกเพลงโปรดของเรา 💖</h3>
             <p class="small" style="margin-bottom: 15px;">จิ้มเลือกเพลงที่อยากฟังได้เลยน้า</p>
-            
             <div id="songListContainer" class="song-list"></div>
-
             <button class="close-playlist-btn" onclick="togglePlaylistMenu()">ปิดหน้าต่าง</button>
-        </div>
-    </div>
-
-    <!-- 🎉 ป๊อปอัปฉลองวันที่ 19 อัตโนมัติ -->
-    <div id="anniversaryPopup" class="anniversary-modal">
-        <div class="anniversary-content">
-            <h2>🎉 Happy Anniversary นะคนเก่ง! 💖</h2>
-            <p>เย้! วันนี้วันที่ 19 แล้วน้า ครบรอบเดือนหนึ่งที่เราจับมือเดินทางด้วยกัน ขอบคุณที่อยู่ข้างๆ และสร้างรอยยิ้มให้เค้าทุกวันเลยนะ รักเธอนะ รักที่สุดในโลกกกเลยนะ 🥰✨</p>
-            <button onclick="closeAnniversaryPopup()">รับกอดแน่นๆ 🤗</button>
         </div>
     </div>
 
@@ -583,18 +544,24 @@
         </div>
     </section>
 
-    <!-- หน้า 2 : สไลด์โชว์รูปภาพ -->
+    <!-- หน้า 2 : สไลด์โชว์ + เพิ่มรูปภาพ -->
     <section class="page">
         <div class="content">
             <h2>Our Memories 📸</h2>
             
-            <div class="slider-container">
+            <div class="slider-container" id="sliderContainer">
                 <img src="sorat.jpg" class="slide-img active" alt="รูปที่ 1">
                 <img src="sorat2.jpg" class="slide-img" alt="รูปที่ 2">
                 <img src="sorat3.jpg" class="slide-img" alt="รูปที่ 3">
                 <img src="sorat4.jpg" class="slide-img" alt="รูปที่ 4">
                 <img src="sorat5.jpg" class="slide-img" alt="รูปที่ 5">
             </div>
+
+            <!-- 📸 ปุ่มสำหรับเพิ่มรูปภาพใหม่ -->
+            <label for="imageUpload" class="upload-btn">➕ เพิ่มรูปความทรงจำใหม่</label>
+            <input type="file" id="imageUpload" accept="image/*" multiple onchange="handleImageUpload(event)">
+
+            <div class="uploaded-gallery" id="uploadedGallery"></div>
 
             <h1>มีของขวัญให้เธอ 🎁</h1>
             <button onclick="nextPage()">Next ▶️</button>
@@ -636,13 +603,12 @@
         </div>
     </section>
 
-    <!-- หน้า 5 : 🔐 เซฟลับรหัสผ่าน -->
+    <!-- หน้า 5 : Passcode -->
     <section class="page">
         <div class="content">
             <div class="passcode-container">
                 <h2>🔐 เซฟลับความทรงจำ</h2>
                 <p class="small" style="margin-bottom: 10px;">ใส่รหัสผ่านลับ (วันสำคัญของเรา DDMMYYYY) เพื่อเปิดกล่องความในใจ 💖</p>
-                
                 <input type="password" id="passcodeInput" class="passcode-input" placeholder="••••••••" maxlength="8">
                 <br>
                 <button onclick="checkPasscode()">ปลดล็อกเซฟลับ ✨</button>
@@ -659,12 +625,12 @@
             <div class="card">
                 <h1>คนเก่งของเค้า 🐶</h1>
 
-                <!-- 📸 รูป Polaroid แตะเพื่อพลิก -->
+                <!-- 📸 รูป Polaroid สามารถกดเปลี่ยนรูปได้ -->
                 <div class="polaroid-container" onclick="flipPolaroid(this)">
                     <div class="polaroid-card">
                         <div class="polaroid-front">
-                            <img src="sorat.jpg" alt="รูปของเรา">
-                            <div class="polaroid-caption">👆 แตะที่รูปเพื่อดูข้อความลับ</div>
+                            <img id="polaroidImg" src="sorat.jpg" alt="รูปของเรา">
+                            <div class="polaroid-caption">👆 แตะเพื่อดูข้อความลับ</div>
                         </div>
                         <div class="polaroid-back">
                             💌 ข้อความหลังรูป:<br><br>
@@ -673,38 +639,26 @@
                     </div>
                 </div>
 
-                <!-- ⏳ นาฬิการักกันมาแล้วแบบ Real-time -->
+                <!-- 🖼️ ปุ่มสำหรับเปลี่ยนรูปโพลารอยด์ -->
+                <label for="polaroidUpload" class="upload-btn" style="padding: 6px 16px; font-size: 13px; margin-bottom: 15px;">📷 เปลี่ยนรูปโพลารอยด์</label>
+                <input type="file" id="polaroidUpload" accept="image/*" onchange="changePolaroidImage(event)">
+
                 <div class="counter-box">
                     เรารักกันมาแล้ว 💖
                     <div class="timer-grid">
-                        <div class="timer-item">
-                            <span id="d" class="timer-value">0</span>
-                            <span class="timer-label">วัน</span>
-                        </div>
-                        <div class="timer-item">
-                            <span id="h" class="timer-value">00</span>
-                            <span class="timer-label">ชั่วโมง</span>
-                        </div>
-                        <div class="timer-item">
-                            <span id="m" class="timer-value">00</span>
-                            <span class="timer-label">นาที</span>
-                        </div>
-                        <div class="timer-item">
-                            <span id="s" class="timer-value">00</span>
-                            <span class="timer-label">วินาที</span>
-                        </div>
+                        <div class="timer-item"><span id="d" class="timer-value">0</span><span class="timer-label">วัน</span></div>
+                        <div class="timer-item"><span id="h" class="timer-value">00</span><span class="timer-label">ชั่วโมง</span></div>
+                        <div class="timer-item"><span id="m" class="timer-value">00</span><span class="timer-label">นาที</span></div>
+                        <div class="timer-item"><span id="s" class="timer-value">00</span><span class="timer-label">วินาที</span></div>
                     </div>
                 </div>
 
-                <!-- ข้อความพิมพ์ทีละตัว -->
                 <div class="message" id="typeWriterMessage"></div>
 
-                <!-- 🎯 ปุ่มฉุกเฉินถ้าเหนื่อย/คิดถึง -->
                 <button class="emergency-btn" onclick="triggerEmergencyHug()">
                     🚨 ถ้าเหนื่อยหรือคิดถึง กดปุ่มนี้เลย! 🤗
                 </button>
 
-                <!-- 💌 ปุ่มส่งกอดเข้า LINE -->
                 <button class="line-btn" onclick="sendLineHug()">
                     💬 ส่งกอดกลับหาเค้าทาง LINE
                 </button>
@@ -724,6 +678,7 @@
 
         bgMusic.volume = 0.4;
 
+        // 🎶 รายชื่อเพลงทั้งหมด 14 เพลง
         const normalPlaylist = [
             { file: "tai.mp3", name: "🎵 เพลงที่ 1: จังหวะตกหลุมรัก" },
             { file: "song2.mp3", name: "🎵 เพลงที่ 2: วันสำคัญ" },
@@ -741,60 +696,14 @@
             { file: "song14.mp3", name: "🎵 เพลงที่ 14: Merry Kiss Me" }   
         ];
 
-        const anniversaryPlaylist = [
-            { file: "anniversary.mp3", name: "🎉 เพลงพิเศษวันครบรอบ (วันที่ 19)" }
-        ];
-
-        let playlist = normalPlaylist;
         let currentTrackIndex = 0;
 
-        function loadTrack(index) { 
-            bgMusic.src = playlist[index].file; 
-        }
-
-        bgMusic.addEventListener("ended", function() {
-            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-            loadTrack(currentTrackIndex);
-            bgMusic.play();
-        });
-
-        function checkAnniversaryDay() {
-            const today = new Date();
-            const currentDay = today.getDate();
-
-            if (currentDay === 19) {
-                playlist = anniversaryPlaylist;
-                currentTrackIndex = 0;
-                loadTrack(0);
-
-                const popup = document.getElementById("anniversaryPopup");
-                if (popup) {
-                    popup.style.display = "flex";
-                    confetti({
-                        particleCount: 150,
-                        spread: 120,
-                        origin: { y: 0.5 },
-                        colors: ['#ff3b7b', '#ff6f9f', '#fff2a8', '#ffb3ca']
-                    });
-                }
-            } else {
-                playlist = normalPlaylist;
-                loadTrack(0);
-            }
-        }
-
-        function closeAnniversaryPopup() {
-            const popup = document.getElementById("anniversaryPopup");
-            if (popup) popup.style.display = "none";
-        }
+        function loadTrack(index) { bgMusic.src = normalPlaylist[index].file; }
+        loadTrack(0);
 
         function toggleMusic() {
             if (bgMusic.paused) {
-                bgMusic.play().then(() => {
-                    musicBtn.textContent = "🔊 ปิดเพลง";
-                }).catch(e => {
-                    console.log("Autoplay blocked");
-                });
+                bgMusic.play().then(() => { musicBtn.textContent = "🔊 ปิดเพลง"; }).catch(e => {});
             } else {
                 bgMusic.pause();
                 musicBtn.textContent = "🎵 เปิดเพลง";
@@ -803,7 +712,6 @@
 
         function togglePlaylistMenu() {
             const modal = document.getElementById("playlistModal");
-            if (!modal) return;
             if (modal.style.display === "flex") {
                 modal.style.display = "none";
             } else {
@@ -814,9 +722,8 @@
 
         function renderSongList() {
             const container = document.getElementById("songListContainer");
-            if (!container) return;
             container.innerHTML = "";
-            playlist.forEach((song, idx) => {
+            normalPlaylist.forEach((song, idx) => {
                 const item = document.createElement("div");
                 item.className = "song-item" + (idx === currentTrackIndex ? " playing" : "");
                 item.innerHTML = `<span>${song.name}</span> <span>${idx === currentTrackIndex ? "▶️" : "🎵"}</span>`;
@@ -831,179 +738,161 @@
             });
         }
 
-        // หน้าเว็บ
         function showPage(index) {
-            pages.forEach((p, i) => {
-                p.classList.toggle("active", i === index);
-            });
+            pages.forEach((p, i) => p.classList.toggle("active", i === index));
             currentPage = index;
             window.scrollTo(0, 0);
 
-            // Trigger Typewriter เฉพาะเมื่อถึงหน้าสุดท้าย
-            if (index === 5 && charIndex === 0) {
-                typeWriter();
-            }
+            if (index === 5 && charIndex === 0) typeWriter();
         }
 
-        function nextPage() {
-            if (currentPage < pages.length - 1) {
-                showPage(currentPage + 1);
-            }
-        }
+        function nextPage() { if (currentPage < pages.length - 1) showPage(currentPage + 1); }
+        function prevPage() { if (currentPage > 0) showPage(currentPage - 1); }
+        function goFirst() { showPage(0); }
 
-        function prevPage() {
-            if (currentPage > 0) {
-                showPage(currentPage - 1);
-            }
-        }
-
-        function goFirst() {
-            showPage(0);
-        }
-
-        // QR Code
         new QRCode(document.getElementById("qrcode"), {
             text: window.location.href,
             width: 150,
             height: 150,
             colorDark: "#ff3b7b",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            colorLight: "#ffffff"
         });
 
         document.getElementById("qrClickArea").addEventListener("click", () => {
-            if (bgMusic.paused) {
-                bgMusic.play().then(() => {
-                    musicBtn.textContent = "🔊 ปิดเพลง";
-                }).catch(e => {});
-            }
+            if (bgMusic.paused) bgMusic.play().catch(e => {});
             nextPage();
         });
 
-        // สุ่มข้อความ
-        const quotes = [
-            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
-            "เธอคือรอยยิ้มของเค้าในทุกๆ วัน 🥰",
-            "ขอบคุณที่เข้ามาเติมเต็มความสุขให้นะคะ/ครับ ✨",
-            "ไม่ว่าจะเจออะไร เค้าจะอยู่ข้างๆ เสมอ 🤝💖",
-            "เธอเป็นคนน่ารักที่สุดในโลกเลยรู้ไหม 🌍💓"
-        ];
-        function getRandomQuote() {
-            const display = document.getElementById("quoteDisplay");
-            const random = quotes[Math.floor(Math.random() * quotes.length)];
-            display.textContent = `"${random}"`;
-        }
+        // 📷 ฟังก์ชันอัปโหลดรูปภาพใส่ Slider + Gallery
+        function handleImageUpload(event) {
+            const files = event.target.files;
+            const container = document.getElementById("sliderContainer");
+            const gallery = document.getElementById("uploadedGallery");
 
-        // เปิดกล่องของขวัญ
-        function openGift() {
-            const gift = document.getElementById("gift");
-            gift.style.transform = "scale(1.15) rotate(5deg)";
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff3b7b', '#ff6f9f', '#fff2a8', '#ffb3ca']
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgSrc = e.target.result;
+
+                    // เพิ่มเข้า Slider
+                    const newImg = document.createElement("img");
+                    newImg.src = imgSrc;
+                    newImg.className = "slide-img";
+                    container.appendChild(newImg);
+
+                    // เพิ่มลง Gallery ด้านล่าง
+                    const thumbBox = document.createElement("div");
+                    thumbBox.className = "thumb-box";
+                    
+                    const thumbImg = document.createElement("img");
+                    thumbImg.src = imgSrc;
+                    
+                    const delBtn = document.createElement("div");
+                    delBtn.className = "delete-btn";
+                    delBtn.innerHTML = "×";
+                    delBtn.onclick = function() {
+                        thumbBox.remove();
+                        newImg.remove();
+                    };
+
+                    thumbBox.appendChild(thumbImg);
+                    thumbBox.appendChild(delBtn);
+                    gallery.appendChild(thumbBox);
+
+                    confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+                };
+                reader.readAsDataURL(file);
             });
-            setTimeout(() => {
-                gift.style.transform = "scale(1)";
-            }, 300);
         }
 
-        function handleGiftClick() {
-            openGift();
-            setTimeout(nextPage, 800);
-        }
-
-        // รหัสผ่านเซฟลับ
-        function checkPasscode() {
-            const input = document.getElementById("passcodeInput").value.trim();
-            const errorDiv = document.getElementById("passcodeError");
-            const correctPass = "19072026"; 
-
-            if (input === correctPass) {
-                errorDiv.textContent = "";
-                confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-                nextPage();
-            } else {
-                errorDiv.textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกทีนะคนเก่ง 🥺";
+        // 📷 เปลี่ยนรูป Polaroid ในหน้า 6
+        function changePolaroidImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("polaroidImg").src = e.target.result;
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+                };
+                reader.readAsDataURL(file);
             }
         }
 
-        // Polaroid Flip
-        function flipPolaroid(el) {
-            const card = el.querySelector(".polaroid-card");
-            card.classList.toggle("flipped");
+        const quotes = [
+            "รักที่รักเพิ่มขึ้นทุกวันเลยนะ 💕",
+            "เธอคือรอยยิ้มของเค้าในทุกๆ วัน 🥰",
+            "ขอบคุณที่เข้ามาเติมเต็มความสุขให้นะคะ ✨",
+            "ไม่ว่าจะเจออะไร เค้าจะอยู่ข้างๆ เสมอ 🤝💖"
+        ];
+        function getRandomQuote() {
+            const display = document.getElementById("quoteDisplay");
+            display.textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
         }
 
-        // ตัวนับเวลา (เริ่มนับตั้งแต่วันที่ 19 กรกฎาคม 2026)
+        function handleGiftClick() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            setTimeout(nextPage, 800);
+        }
+
+        function checkPasscode() {
+            const input = document.getElementById("passcodeInput").value.trim();
+            if (input === "19072026") {
+                confetti({ particleCount: 120, spread: 80 });
+                nextPage();
+            } else {
+                document.getElementById("passcodeError").textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกทีนะคนเก่ง 🥺";
+            }
+        }
+
+        function flipPolaroid(el) {
+            el.querySelector(".polaroid-card").classList.toggle("flipped");
+        }
+
         const startDate = new Date("2026-07-19T00:00:00");
         function updateTimer() {
-            const now = new Date();
-            const diff = now - startDate;
-            
-            const dEl = document.getElementById("d");
-            const hEl = document.getElementById("h");
-            const mEl = document.getElementById("m");
-            const sEl = document.getElementById("s");
-
+            const diff = new Date() - startDate;
             if (diff > 0) {
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                const seconds = Math.floor((diff / 1000) % 60);
-
-                if (dEl) dEl.textContent = days;
-                if (hEl) hEl.textContent = String(hours).padStart(2, '0');
-                if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
-                if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
-            } else {
-                if (dEl) dEl.textContent = 0;
-                if (hEl) hEl.textContent = "00";
-                if (mEl) mEl.textContent = "00";
-                if (sEl) sEl.textContent = "00";
+                document.getElementById("d").textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("h").textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+                document.getElementById("m").textContent = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+                document.getElementById("s").textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
             }
         }
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // พิมพ์จดหมายทีละตัว
-        const letterText = "ถึง คนเก่งของเค้า,\n\nขอบคุณนะคะ/ครับที่เดินทางร่วมกันมาจนถึงวันนี้ ทุกช่วงเวลาที่มีเธอคือความสุขที่สุดในชีวิตของเค้าเลย ขอบคุณที่คอยดูแล เป็นกำลังใจ และสร้างเสียงหัวเราะให้กันเสมอ...\n\nรักเธอที่สุดในโลกเลยนะ 💖";
+        const letterText = "ถึง คนเก่งของเค้า,\n\nขอบคุณนะคะที่เดินทางร่วมกันมาจนถึงวันนี้ ทุกช่วงเวลาที่มีเธอคือความสุขที่สุดเลย...\n\nรักเธอที่สุดในโลกเลยนะ 💖";
         let charIndex = 0;
         function typeWriter() {
             const container = document.getElementById("typeWriterMessage");
             if (container && charIndex < letterText.length) {
-                container.textContent += letterText.charAt(charIndex);
-                charIndex++;
+                container.textContent += letterText.charAt(charIndex++);
                 setTimeout(typeWriter, 40);
             }
         }
 
-        // ปุ่มฉุกเฉิน
         function triggerEmergencyHug() {
-            confetti({ particleCount: 80, spread: 100, origin: { y: 0.7 } });
-            alert("🤗 ส่งกอดแน่นๆ และพลังบวกจากเค้าไปหาเธอแล้วนะ หายเหนื่อยแล้วยิ้มกว้างๆ น้าคนเก่ง 💖");
+            confetti({ particleCount: 80, spread: 100 });
+            alert("🤗 ส่งกอดแน่นๆ และพลังบวกไปให้แล้วนะ ยิ้มกว้างๆ น้าคนเก่ง 💖");
         }
 
-        // ส่ง LINE
         function sendLineHug() {
-            const text = encodeURIComponent("คิดถึงจังเลย ส่งกอดแน่นๆ มาให้หน่อย 🤗💖");
-            window.open(`https://line.me/R/msg/text/?${text}`, '_blank');
+            window.open(`https://line.me/R/msg/text/?${encodeURIComponent("คิดถึงจังเลย ส่งกอดแน่นๆ มาให้หน่อย 🤗💖")}`, '_blank');
         }
 
-        // 🖼️ ระบบ Auto Slideshow สำหรับรูปภาพในหน้า 2
+        // Auto Slide
         let currentSlide = 0;
-        const slides = document.querySelectorAll(".slide-img");
-        function autoSlide() {
+        setInterval(() => {
+            const slides = document.querySelectorAll(".slide-img");
             if (slides.length > 0) {
                 slides[currentSlide].classList.remove("active");
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add("active");
             }
-        }
-        setInterval(autoSlide, 3000);
+        }, 3000);
 
-        // 🎈 เอฟเฟกต์สร้างหัวใจลอยเบื้องหลัง
-        function createFloatingHeart() {
+        // Background Hearts
+        setInterval(() => {
             const heart = document.createElement("div");
             heart.className = "heart-particle";
             heart.innerHTML = ["💖", "💗", "🌸", "✨"][Math.floor(Math.random() * 4)];
@@ -1011,13 +900,7 @@
             heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
-        }
-        setInterval(createFloatingHeart, 800);
-
-        // ตรวจสอบวันครบรอบเมื่อโหลดหน้าเว็บ
-        window.onload = function() {
-            checkAnniversaryDay();
-        };
+        }, 800);
     </script>
 </body>
 </html>
