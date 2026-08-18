@@ -677,7 +677,7 @@
         // 🎶 รายชื่อเพลงทั้งหมด (ลำดับที่ 2 / Index 1 คือเพลงวันครบรอบ)
         const normalPlaylist = [
             { file: "tai.mp3", name: "🎵 เพลงที่ 1: จังหวะตกหลุมรัก" },
-            { file: "song2.mp3", name: "🎵 เพลงวันครบรอบ: วันสำคัญ 💖" },
+            { file: "anniversary.mp3", name: "🎵 เพลงวันครบรอบ: วันสำคัญ 💖" },
             { file: "song3.mp3", name: "🎵 เพลงที่ 3: ความทรงจำ" },
             { file: "song4.mp3", name: "🎵 เพลงที่ 4: เธอกับฉัน" },
             { file: "song5.mp3", name: "🎵 เพลงที่ 5: สมดุลรัก" },
@@ -833,7 +833,7 @@
             if (input === "19072026" || input === "19082026") {
                 confetti({ particleCount: 120, spread: 80 });
 
-                // 1. สลับไปเล่นเพลงวันครบรอบ (song2.mp3)
+                // 1. สลับไปเล่นเพลงวันครบรอบ (anniversary.mp3)
                 currentTrackIndex = 1;
                 loadTrack(currentTrackIndex);
                 
