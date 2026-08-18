@@ -836,7 +836,8 @@
 
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
-            if (input === "19072026") {
+            // รหัสผ่าน: 19082026 (19 สิงหาคม 2026)
+            if (input === "19082026" || input === "19072026") {
                 confetti({ particleCount: 120, spread: 80 });
                 nextPage();
             } else {
@@ -848,10 +849,11 @@
             el.querySelector(".polaroid-card").classList.toggle("flipped");
         }
 
-        const startDate = new Date("2026-07-19T00:00:00");
+        // ตั้งค่าให้เริ่มนับจากวันนี้ (19 สิงหาคม 2026 เวลา 00:00 น.)
+        const startDate = new Date("2026-08-19T00:00:00");
         function updateTimer() {
             const diff = new Date() - startDate;
-            if (diff > 0) {
+            if (diff >= 0) {
                 document.getElementById("d").textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
                 document.getElementById("h").textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
                 document.getElementById("m").textContent = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
