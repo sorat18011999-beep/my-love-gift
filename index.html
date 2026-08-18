@@ -674,7 +674,7 @@
 
         bgMusic.volume = 0.4;
 
-        // 🎶 รายชื่อเพลงทั้งหมด (ลำดับที่ 2 / Index 1 คือเพลงวันครบรอบ)
+        // 🎶 รายชื่อเพลงทั้งหมด (เพลงวันครบรอบคือ anniversary.mp3)
         const normalPlaylist = [
             { file: "tai.mp3", name: "🎵 เพลงที่ 1: จังหวะตกหลุมรัก" },
             { file: "anniversary.mp3", name: "🎵 เพลงวันครบรอบ: วันสำคัญ 💖" },
@@ -696,6 +696,14 @@
 
         function loadTrack(index) { bgMusic.src = normalPlaylist[index].file; }
         loadTrack(0);
+
+        // 🔁 เล่นเพลงถัดไปอัตโนมัติเมื่อเพลงจบ
+        bgMusic.onended = function() {
+            currentTrackIndex = (currentTrackIndex + 1) % normalPlaylist.length;
+            loadTrack(currentTrackIndex);
+            bgMusic.play();
+            musicBtn.textContent = "🔊 ปิดเพลง";
+        };
 
         function toggleMusic() {
             if (bgMusic.paused) {
@@ -827,22 +835,30 @@
             setTimeout(nextPage, 800);
         }
 
-        // --- แก้ไขจุดนี้: สั่งเล่นเพลงวันครบรอบทันทีเมื่อกดปลดล็อกสำเร็จ (แก้เบราว์เซอร์บล็อก Autoplay) ---
+        // --- ตั้งค่าระบบสลับเพลงอัตโนมัติตามวัน ---
+        const anniversaryDate = new Date("2026-07-19T00:00:00");
+
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
             if (input === "19072026" || input === "19082026") {
                 confetti({ particleCount: 120, spread: 80 });
 
-                // 1. สลับไปเล่นเพลงวันครบรอบ (anniversary.mp3)
-                currentTrackIndex = 1;
+                const now = new Date();
+                const isAnniversaryDay = (now.getDate() === anniversaryDate.getDate());
+
+                if (isAnniversaryDay) {
+                    // ตรงวันครบรอบ (วันที่ 19) -> เล่นเพลงวันครบรอบ (anniversary.mp3)
+                    currentTrackIndex = 1;
+                } else {
+                    // วันทั่วไป -> เริ่มเล่นเพลงถัดไปจากที่ฟังอยู่ และรันวนลูปต่อเรื่อยๆ
+                    currentTrackIndex = (currentTrackIndex + 1) % normalPlaylist.length;
+                }
+
                 loadTrack(currentTrackIndex);
-                
-                // 2. สั่งเล่นเพลงทันทีจากการกดยืนยันตัวตน
                 bgMusic.play().then(() => {
                     musicBtn.textContent = "🔊 ปิดเพลง";
-                }).catch(e => console.log("Music error:", e));
+                }).catch(e => console.log("Music play blocked", e));
 
-                // 3. เปลี่ยนไปหน้าการ์ด
                 nextPage();
             } else {
                 document.getElementById("passcodeError").textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกทีนะคนเก่ง 🥺";
@@ -852,9 +868,6 @@
         function flipPolaroid(el) {
             el.querySelector(".polaroid-card").classList.toggle("flipped");
         }
-
-        // --- วันคบกันจริง: 19 กรกฎาคม 2026 ---
-        const anniversaryDate = new Date("2026-07-19T00:00:00");
 
         function updateTimer() {
             const diff = new Date() - anniversaryDate;
@@ -881,14 +894,14 @@
 
         function checkAnniversaryAndTrigger() {
             const now = new Date();
-            if (now >= anniversaryDate) {
-                if (charIndex === 0) {
-                    typeWriter();
-                }
-            } else {
-                const container = document.getElementById("typeWriterMessage");
-                if (container) {
-                    container.textContent = "⏳ ยังไม่ถึงวันพิเศษของเรา รออีกนิดน้าคนเก่ง... 🎁";
+            const isAnniversaryDay = (now.getDate() === anniversaryDate.getDate());
+
+            const container = document.getElementById("typeWriterMessage");
+            if (container) {
+                if (isAnniversaryDay) {
+                    if (charIndex === 0) typeWriter();
+                } else {
+                    container.textContent = "ขอบคุณสำหรับทุกๆ วันที่อยู่เคียงข้างกันนะคนเก่ง รักเธอในทุกๆ วันเลยค่ะ 💖";
                 }
             }
         }
