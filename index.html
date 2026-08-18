@@ -674,7 +674,7 @@
 
         bgMusic.volume = 0.4;
 
-        // 🎶 รายชื่อเพลงทั้งหมด (เพลงที่ 2 คือเพลงวันครบรอบ)
+        // 🎶 รายชื่อเพลงทั้งหมด (ลำดับที่ 2 / Index 1 คือเพลงวันครบรอบ)
         const normalPlaylist = [
             { file: "tai.mp3", name: "🎵 เพลงที่ 1: จังหวะตกหลุมรัก" },
             { file: "song2.mp3", name: "🎵 เพลงวันครบรอบ: วันสำคัญ 💖" },
@@ -827,10 +827,22 @@
             setTimeout(nextPage, 800);
         }
 
+        // --- แก้ไขจุดนี้: สั่งเล่นเพลงวันครบรอบทันทีเมื่อกดปลดล็อกสำเร็จ (แก้เบราว์เซอร์บล็อก Autoplay) ---
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
             if (input === "19072026" || input === "19082026") {
                 confetti({ particleCount: 120, spread: 80 });
+
+                // 1. สลับไปเล่นเพลงวันครบรอบ (song2.mp3)
+                currentTrackIndex = 1;
+                loadTrack(currentTrackIndex);
+                
+                // 2. สั่งเล่นเพลงทันทีจากการกดยืนยันตัวตน
+                bgMusic.play().then(() => {
+                    musicBtn.textContent = "🔊 ปิดเพลง";
+                }).catch(e => console.log("Music error:", e));
+
+                // 3. เปลี่ยนไปหน้าการ์ด
                 nextPage();
             } else {
                 document.getElementById("passcodeError").textContent = "❌ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกทีนะคนเก่ง 🥺";
@@ -841,7 +853,7 @@
             el.querySelector(".polaroid-card").classList.toggle("flipped");
         }
 
-        // --- ตั้งค่าระบบนับเวลาเริ่มต้นจริงวันคบกัน 19 กรกฎาคม 2026 ---
+        // --- วันคบกันจริง: 19 กรกฎาคม 2026 ---
         const anniversaryDate = new Date("2026-07-19T00:00:00");
 
         function updateTimer() {
@@ -869,17 +881,9 @@
 
         function checkAnniversaryAndTrigger() {
             const now = new Date();
-            // เช็คว่าเวลาปัจจุบันผ่านวันคบกันมาแล้ว (>= 19 ก.ค. 2026)
             if (now >= anniversaryDate) {
                 if (charIndex === 0) {
                     typeWriter();
-                }
-                if (currentTrackIndex !== 1) {
-                    currentTrackIndex = 1;
-                    loadTrack(currentTrackIndex);
-                    bgMusic.play().then(() => {
-                        musicBtn.textContent = "🔊 ปิดเพลง";
-                    }).catch(e => {});
                 }
             } else {
                 const container = document.getElementById("typeWriterMessage");
