@@ -557,7 +557,6 @@
                 <img src="sorat5.jpg" class="slide-img" alt="รูปที่ 5">
             </div>
 
-            <!-- 📸 ปุ่มสำหรับเพิ่มรูปภาพใหม่ -->
             <label for="imageUpload" class="upload-btn">➕ เพิ่มรูปความทรงจำใหม่</label>
             <input type="file" id="imageUpload" accept="image/*" multiple onchange="handleImageUpload(event)">
 
@@ -625,7 +624,6 @@
             <div class="card">
                 <h1>คนเก่งของเค้า 🐶</h1>
 
-                <!-- 📸 รูป Polaroid สามารถกดเปลี่ยนรูปได้ -->
                 <div class="polaroid-container" onclick="flipPolaroid(this)">
                     <div class="polaroid-card">
                         <div class="polaroid-front">
@@ -639,7 +637,6 @@
                     </div>
                 </div>
 
-                <!-- 🖼️ ปุ่มสำหรับเปลี่ยนรูปโพลารอยด์ -->
                 <label for="polaroidUpload" class="upload-btn" style="padding: 6px 16px; font-size: 13px; margin-bottom: 15px;">📷 เปลี่ยนรูปโพลารอยด์</label>
                 <input type="file" id="polaroidUpload" accept="image/*" onchange="changePolaroidImage(event)">
 
@@ -678,10 +675,10 @@
 
         bgMusic.volume = 0.4;
 
-        // 🎶 รายชื่อเพลงทั้งหมด 14 เพลง
+        // 🎶 รายชื่อเพลงทั้งหมด (เพลงที่ 2 คือเพลงวันครบรอบ)
         const normalPlaylist = [
             { file: "tai.mp3", name: "🎵 เพลงที่ 1: จังหวะตกหลุมรัก" },
-            { file: "song2.mp3", name: "🎵 เพลงที่ 2: วันสำคัญ" },
+            { file: "song2.mp3", name: "🎵 เพลงวันครบรอบ: วันสำคัญ 💖" },
             { file: "song3.mp3", name: "🎵 เพลงที่ 3: ความทรงจำ" },
             { file: "song4.mp3", name: "🎵 เพลงที่ 4: เธอกับฉัน" },
             { file: "song5.mp3", name: "🎵 เพลงที่ 5: สมดุลรัก" },
@@ -743,7 +740,10 @@
             currentPage = index;
             window.scrollTo(0, 0);
 
-            if (index === 5 && charIndex === 0) typeWriter();
+            // ถ้าเปิดมาถึงหน้า 6 และถึงวันครบรอบ ให้รันเงื่อนไขจดหมาย + เปลี่ยนเพลง
+            if (index === 5) {
+                checkAnniversaryAndTrigger();
+            }
         }
 
         function nextPage() { if (currentPage < pages.length - 1) showPage(currentPage + 1); }
@@ -763,7 +763,6 @@
             nextPage();
         });
 
-        // 📷 ฟังก์ชันอัปโหลดรูปภาพใส่ Slider + Gallery
         function handleImageUpload(event) {
             const files = event.target.files;
             const container = document.getElementById("sliderContainer");
@@ -773,14 +772,11 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imgSrc = e.target.result;
-
-                    // เพิ่มเข้า Slider
                     const newImg = document.createElement("img");
                     newImg.src = imgSrc;
                     newImg.className = "slide-img";
                     container.appendChild(newImg);
 
-                    // เพิ่มลง Gallery ด้านล่าง
                     const thumbBox = document.createElement("div");
                     thumbBox.className = "thumb-box";
                     
@@ -805,7 +801,6 @@
             });
         }
 
-        // 📷 เปลี่ยนรูป Polaroid ในหน้า 6
         function changePolaroidImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -836,7 +831,6 @@
 
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
-            // รหัสผ่าน: 19082026 (19 สิงหาคม 2026)
             if (input === "19082026" || input === "19072026") {
                 confetti({ particleCount: 120, spread: 80 });
                 nextPage();
@@ -849,10 +843,11 @@
             el.querySelector(".polaroid-card").classList.toggle("flipped");
         }
 
-        // ตั้งค่าให้เริ่มนับจากวันนี้ (19 สิงหาคม 2026 เวลา 00:00 น.)
-        const startDate = new Date("2026-08-19T00:00:00");
+        // --- ตั้งค่าระบบนับเวลาและเช็ควันครบรอบ (19 สิงหาคม 2026) ---
+        const anniversaryDate = new Date("2026-08-19T00:00:00");
+
         function updateTimer() {
-            const diff = new Date() - startDate;
+            const diff = new Date() - anniversaryDate;
             if (diff >= 0) {
                 document.getElementById("d").textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
                 document.getElementById("h").textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
@@ -863,13 +858,37 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        const letterText = "ถึง คนเก่งของเค้า,\n\nขอบคุณนะคะที่เดินทางร่วมกันมาจนถึงวันนี้ ทุกช่วงเวลาที่มีเธอคือความสุขที่สุดเลย...\n\nรักเธอที่สุดในโลกเลยนะ 💖";
+        const letterText = "ถึง คนเก่งของเค้า,\n\nขอบคุณนะคะที่เดินทางร่วมกันมาจนถึงวันนี้ ทุกช่วงเวลาที่มีเธอคือความสุขที่สุดเลย...\n\nสุขสันต์วันครบรอบนะคะ รักเธอที่สุดในโลกเลยนะ 💖";
         let charIndex = 0;
+
         function typeWriter() {
             const container = document.getElementById("typeWriterMessage");
             if (container && charIndex < letterText.length) {
                 container.textContent += letterText.charAt(charIndex++);
                 setTimeout(typeWriter, 40);
+            }
+        }
+
+        function checkAnniversaryAndTrigger() {
+            const now = new Date();
+            if (now >= anniversaryDate) {
+                // 1. รันการพิมพ์จดหมาย
+                if (charIndex === 0) {
+                    typeWriter();
+                }
+                // 2. เปลี่ยนเป็นเพลงวันครบรอบ (เพลงลำดับที่ 2 ในลิสต์)
+                if (currentTrackIndex !== 1) {
+                    currentTrackIndex = 1;
+                    loadTrack(currentTrackIndex);
+                    bgMusic.play().then(() => {
+                        musicBtn.textContent = "🔊 ปิดเพลง";
+                    }).catch(e => {});
+                }
+            } else {
+                const container = document.getElementById("typeWriterMessage");
+                if (container) {
+                    container.textContent = "⏳ ยังไม่ถึงวันพิเศษของเรา รออีกนิดน้าคนเก่ง... 🎁";
+                }
             }
         }
 
