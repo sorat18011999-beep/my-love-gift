@@ -91,7 +91,6 @@
 
         .back-page:hover { background: #fff3f7; }
 
-        /* Hidden File Input */
         input[type="file"] { display: none; }
 
         /* Slider */
@@ -119,7 +118,7 @@
 
         .slide-img.active { opacity: 1; }
 
-        /* Gallery Grid สำหรับรูปที่เพิ่มใหม่ */
+        /* Gallery Grid */
         .uploaded-gallery {
             display: flex;
             flex-wrap: wrap;
@@ -740,7 +739,6 @@
             currentPage = index;
             window.scrollTo(0, 0);
 
-            // ถ้าเปิดมาถึงหน้า 6 และถึงวันครบรอบ ให้รันเงื่อนไขจดหมาย + เปลี่ยนเพลง
             if (index === 5) {
                 checkAnniversaryAndTrigger();
             }
@@ -831,7 +829,7 @@
 
         function checkPasscode() {
             const input = document.getElementById("passcodeInput").value.trim();
-            if (input === "19082026" || input === "19072026") {
+            if (input === "19072026" || input === "19082026") {
                 confetti({ particleCount: 120, spread: 80 });
                 nextPage();
             } else {
@@ -843,8 +841,8 @@
             el.querySelector(".polaroid-card").classList.toggle("flipped");
         }
 
-        // --- ตั้งค่าระบบนับเวลาและเช็ควันครบรอบ (19 สิงหาคม 2026) ---
-        const anniversaryDate = new Date("2026-08-19T00:00:00");
+        // --- ตั้งค่าระบบนับเวลาเริ่มต้นจริงวันคบกัน 19 กรกฎาคม 2026 ---
+        const anniversaryDate = new Date("2026-07-19T00:00:00");
 
         function updateTimer() {
             const diff = new Date() - anniversaryDate;
@@ -871,12 +869,11 @@
 
         function checkAnniversaryAndTrigger() {
             const now = new Date();
+            // เช็คว่าเวลาปัจจุบันผ่านวันคบกันมาแล้ว (>= 19 ก.ค. 2026)
             if (now >= anniversaryDate) {
-                // 1. รันการพิมพ์จดหมาย
                 if (charIndex === 0) {
                     typeWriter();
                 }
-                // 2. เปลี่ยนเป็นเพลงวันครบรอบ (เพลงลำดับที่ 2 ในลิสต์)
                 if (currentTrackIndex !== 1) {
                     currentTrackIndex = 1;
                     loadTrack(currentTrackIndex);
